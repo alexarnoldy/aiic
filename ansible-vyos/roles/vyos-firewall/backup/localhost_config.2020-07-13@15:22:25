@@ -1,0 +1,89 @@
+set firewall all-ping 'enable'[m
+set firewall broadcast-ping 'disable'[m
+set firewall config-trap 'disable'[m
+set firewall group address-group SSH-ACCESS address '172.16.240.161'[m
+set firewall group address-group SSH-ACCESS address '172.16.240.102'[m
+set firewall ipv6-receive-redirects 'disable'[m
+set firewall ipv6-src-route 'disable'[m
+set firewall ip-src-route 'disable'[m
+set firewall log-martians 'enable'[m
+set firewall name OUTSIDE-IN default-action 'drop'[m
+set firewall name OUTSIDE-IN description 'deny traffic from internet'[m
+set firewall name OUTSIDE-IN rule 10 action 'accept'[m
+set firewall name OUTSIDE-IN rule 10 destination address '172.16.241.1'[m
+set firewall name OUTSIDE-IN rule 10 destination port '80'[m
+set firewall name OUTSIDE-IN rule 10 protocol 'tcp'[m
+set firewall name OUTSIDE-IN rule 10 source address '172.16.240.101/32'[m
+set firewall name OUTSIDE-IN rule 10 state new 'enable'[m
+set firewall name OUTSIDE-IN rule 20 action 'accept'[m
+set firewall name OUTSIDE-IN rule 20 destination address '172.16.241.1'[m
+set firewall name OUTSIDE-IN rule 20 destination port '443'[m
+set firewall name OUTSIDE-IN rule 20 protocol 'tcp'[m
+set firewall name OUTSIDE-IN rule 20 source address '172.16.240.101/32'[m
+set firewall name OUTSIDE-IN rule 20 state new 'enable'[m
+set firewall name OUTSIDE-IN rule 30 action 'accept'[m
+set firewall name OUTSIDE-IN rule 30 destination address '172.16.241.1'[m
+set firewall name OUTSIDE-IN rule 30 destination port '22'[m
+set firewall name OUTSIDE-IN rule 30 protocol 'tcp'[m
+set firewall name OUTSIDE-IN rule 30 source address '172.16.240.101/32'[m
+set firewall name OUTSIDE-IN rule 30 state new 'enable'[m
+set firewall name OUTSIDE-LOCAL default-action 'drop'[m
+set firewall name OUTSIDE-LOCAL rule 310 action 'accept'[m
+set firewall name OUTSIDE-LOCAL rule 310 destination port '22'[m
+set firewall name OUTSIDE-LOCAL rule 310 protocol 'tcp'[m
+set firewall name OUTSIDE-LOCAL rule 310 source group address-group 'SSH-ACCESS'[m
+set firewall name OUTSIDE-LOCAL rule 900 action 'accept'[m
+set firewall name OUTSIDE-LOCAL rule 900 description 'allow icmp'[m
+set firewall name OUTSIDE-LOCAL rule 900 protocol 'icmp'[m
+set firewall receive-redirects 'disable'[m
+set firewall send-redirects 'enable'[m
+set firewall source-validation 'disable'[m
+set firewall state-policy established action 'accept'[m
+set firewall state-policy related action 'accept'[m
+set firewall syn-cookies 'enable'[m
+set firewall twa-hazards-protection 'disable'[m
+set interfaces ethernet eth0 address '172.16.240.40/24'[m
+set interfaces ethernet eth0 description 'OUTSIDE'[m
+set interfaces ethernet eth0 firewall in name 'OUTSIDE-IN'[m
+set interfaces ethernet eth0 firewall local name 'OUTSIDE-LOCAL'[m
+set interfaces ethernet eth0 hw-id '52:54:00:a4:db:d5'[m
+set interfaces ethernet eth1 address '172.16.241.1/24'[m
+set interfaces ethernet eth1 description 'INSIDE'[m
+set interfaces ethernet eth1 duplex 'auto'[m
+set interfaces ethernet eth1 hw-id '52:54:00:17:d7:51'[m
+set interfaces ethernet eth1 speed 'auto'[m
+set interfaces loopback lo[m
+set nat destination rule 10 description 'NAT port 80 to 172.16.241.1'[m
+set nat destination rule 10 destination port '80'[m
+set nat destination rule 10 inbound-interface 'eth0'[m
+set nat destination rule 10 protocol 'tcp'[m
+set nat destination rule 10 translation address '172.16.241.1'[m
+set nat destination rule 10 translation port '80'[m
+set nat destination rule 20 description 'NAT port 443 to 172.16.241.1'[m
+set nat destination rule 20 destination port '443'[m
+set nat destination rule 20 inbound-interface 'eth0'[m
+set nat destination rule 20 protocol 'tcp'[m
+set nat destination rule 20 translation address '172.16.241.1'[m
+set nat destination rule 20 translation port '443'[m
+set nat destination rule 30 description 'NAT port 22 to 172.16.241.1'[m
+set nat destination rule 30 destination port '22'[m
+set nat destination rule 30 inbound-interface 'eth0'[m
+set nat destination rule 30 protocol 'tcp'[m
+set nat destination rule 30 translation address '172.16.241.1'[m
+set nat destination rule 30 translation port '22'[m
+set nat source rule 100 outbound-interface 'eth0'[m
+set nat source rule 100 source address '172.16.241.0/24'[m
+set nat source rule 100 translation address 'masquerade'[m
+set service ssh port '22'[m
+set system config-management commit-revisions '100'[m
+set system console device ttyS0 speed '115200'[m
+set system host-name 'vyos-router-template'[m
+set system login banner post-login '-----------------------------\n\nVyOS Ansible Managed Firewall\n\n-----------------------------'[m
+set system login user vyos authentication encrypted-password '$6$QamZOqKuO$i1fargkc2iRwlBu0yqRO4fihnUOJmZJ2IHe1Cc6xHfW3gU10SJ9szKo6hrqVTyxb/VD6x1LF5YVRc/Ijjqzxm/'[m
+set system login user vyos authentication plaintext-password ''[m
+set system name-server '172.16.250.2'[m
+set system ntp server 0.pool.ntp.org[m
+set system ntp server 1.pool.ntp.org[m
+set system ntp server 2.pool.ntp.org[m
+set system syslog global facility all level 'info'[m
+set system syslog global facility protocols level 'debug'[m

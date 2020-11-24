@@ -1,0 +1,12 @@
+---
+# defaults file for vyos/roles/vyos-firewall
+
+motd_asciiart: |
+  -----------------------------
+
+  VyOS Ansible Managed Firewall
+
+  -----------------------------
+
+vyos_nameservers:
+  - 172.16.250.2

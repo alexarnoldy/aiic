@@ -1,0 +1,20 @@
+set interfaces ethernet eth0 address '172.16.240.41/24'[m
+set interfaces ethernet eth0 description 'OUTSIDE'[m
+set interfaces ethernet eth0 hw-id '52:54:00:a4:db:d5'[m
+set interfaces ethernet eth1 address '172.16.241.1/24'[m
+set interfaces ethernet eth1 description 'INSIDE'[m
+set interfaces ethernet eth1 hw-id '52:54:00:17:d7:51'[m
+set interfaces loopback lo[m
+set service ssh port '22'[m
+set system config-management commit-revisions '100'[m
+set system console device ttyS0 speed '115200'[m
+set system host-name 'vyos-router-241'[m
+set system login banner post-login '-----------------------------\n\nVyOS Ansible Managed Firewall\n\n-----------------------------'[m
+set system login user vyos authentication encrypted-password '$6$EA1BaJTPSSsKx0$NdSswqQzqwSw3y75VYWJuOleWVXC4irqM.MDhqj1Sw4WUvSZ.LsKVlFaXoIa1h4eFqDABwiW6h87/CEdU09Z8/'[m
+set system login user vyos authentication plaintext-password ''[m
+set system name-server '172.16.250.2'[m
+set system ntp server 0.pool.ntp.org[m
+set system ntp server 1.pool.ntp.org[m
+set system ntp server 2.pool.ntp.org[m
+set system syslog global facility all level 'info'[m
+set system syslog global facility protocols level 'debug'[m

@@ -1,0 +1,23 @@
+---
+
+vyos:  
+  host: "vyos-router-template"
+  username: "vyos"  
+  backup: "yes"  
+  inside:    
+    interface: "172.16.XYZ.1/24"    
+    subnet: "172.16.XYZ.0/24"
+  dhcp:
+    start: "172.16.XYZ.10"
+    stop: "172.16.XYZ.109"
+    
+whitelist_ips:  
+  - 172.16.240.161
+  - 172.16.240.102
+
+new_hostname: "vyos-router-XYZ"    
+
+rules:
+    - { action: 'set', source_address: '172.16.240.101/32', source_port: '80', destination_port: '80', destination_address: '172.16.XYZ.1', protocol: 'tcp', description: 'NAT port 80 to 172.16.XYZ.1', rule_number: '10' }
+    - { action: 'set', source_address: '172.16.240.101/32', source_port: '443', destination_port: '443', destination_address: '172.16.XYZ.1', protocol: 'tcp', description: 'NAT port 443 to 172.16.XYZ.1', rule_number: '20' }
+    - { action: 'set', source_address: '172.16.240.101/32', source_port: '22', destination_port: '22', destination_address: '172.16.XYZ.1', protocol: 'tcp', description: 'NAT port 22 to 172.16.XYZ.1', rule_number: '30' }

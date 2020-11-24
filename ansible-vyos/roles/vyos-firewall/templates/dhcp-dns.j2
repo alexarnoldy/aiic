@@ -1,0 +1,10 @@
+set service dhcp-server shared-network-name LAN subnet '{{ vyos.inside.subnet }}' default-router '{{ vyos.inside.interface }}'
+set service dhcp-server shared-network-name LAN subnet '{{ vyos.inside.subnet }}' dns-server '{{ vyos.inside.interface }}'
+set service dhcp-server shared-network-name LAN subnet '{{ vyos.inside.subnet }}' domain-name 'internal-network'
+set service dhcp-server shared-network-name LAN subnet '{{ vyos.inside.subnet }}' lease '86400'
+set service dhcp-server shared-network-name LAN subnet '{{ vyos.inside.subnet }}' range 0 start '{{ vyos.dhcp.start }}'
+set service dhcp-server shared-network-name LAN subnet '{{ vyos.inside.subnet }}' range 0 stop '{{ vyos.dhcp.stop }}'
+
+set service dns forwarding cache-size '0'
+set service dns forwarding listen-address '{{ vyos.inside.interface }}'
+set service dns forwarding allow-from '{{ vyos.inside.subnet }}'
