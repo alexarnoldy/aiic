@@ -1,0 +1,8 @@
+IPADDR='0.0.0.0'
+NAME=''
+MTU='0'
+BOOTPROTO='none'
+STARTMODE='auto'
+ZONE=''
+ETHERDEVICE='bond0'
+VLAN_ID='XYZ'
