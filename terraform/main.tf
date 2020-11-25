@@ -7,7 +7,7 @@ provider "libvirt" {
 }
 
 resource "libvirt_volume" "img" {
-  name   = "${var.stack_name}-${basename(var.image_uri)}"
+  name   = "${var.company-project_name}-${basename(var.image_uri)}"
   source = var.image_uri
   pool   = var.pool
 }
