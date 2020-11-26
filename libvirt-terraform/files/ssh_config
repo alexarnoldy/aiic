@@ -1,0 +1,8 @@
+HOST caasp-terraformlb-0.caasp.local caasp-lb lb
+  HOSTNAME caasp-terraformlb-0.caasp.local
+HOST caasp-terraformmaster-0.caasp.local caasp-terraformmaster-0 master-0
+  HOSTNAME caasp-terraformmaster-0.caasp.local
+HOST caasp-terraformworker-0.caasp.local caasp-terraformworker-0 worker-0
+  HOSTNAME caasp-terraformworker-0.caasp.local
+HOST caasp-terraformworker-1.caasp.local caasp-terraformworker-1 worker-1
+  HOSTNAME caasp-terraformworker-1.caasp.local

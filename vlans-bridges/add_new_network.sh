@@ -65,7 +65,7 @@ ADDorRemove="$(basename $0)"
 [ ${ADDorRemove} = remove_networks.sh ] && func_remove_network
 
 ## Iterate over the infrastructure hosts to create any bridges that are listed in ./.configured_nets but not configured on each host
-for NODE in $(ls ./infrastructure) 
+for NODE in $(ls ../infrastructure) 
 do
 
 ## Iterate over the existing networks on this node to verify they are listed in ./.configured_nets and remove them if they are not

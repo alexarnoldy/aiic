@@ -1,0 +1,3 @@
+./vlans-bridges/terraform/images
+./vlans-bridges/terraform/images/vyos-router-template.qcow2
+./libvirt-terraform/images

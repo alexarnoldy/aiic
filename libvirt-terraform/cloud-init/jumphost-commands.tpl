@@ -1,0 +1,8 @@
+  - [ zypper, -n, install, ${packages} ]
+  - [ zypper, -n, install, -t, pattern, SUSE-CaaSP-Management ]
+  - [ zypper, -n, update ]
+  - [ mkdir, /public ]
+  - [ chmod, g=rwx, /public ]
+  - [ chmod, o=rwx, /public ]
+  - [ cp, -p, /root/recover_deployment.sh, /var/lib/cloud/scripts/per-boot/ ]
+  - [ reboot ]
