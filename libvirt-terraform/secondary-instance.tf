@@ -51,7 +51,7 @@ data "template_file" "secondary-cloud-init" {
 }
 
 resource "libvirt_volume" "secondary" {
-  name           = "${var.stack_name}-secondary-volume-${count.index}"
+  name           = "${var.company-project_name}-secondary-volume-${count.index}"
   pool           = var.pool
   size           = var.secondary_disk_size
   base_volume_id = libvirt_volume.img.id
@@ -61,14 +61,14 @@ resource "libvirt_volume" "secondary" {
 resource "libvirt_cloudinit_disk" "secondary" {
   # needed when 0 secondary nodes are defined
   count     = var.secondarys
-  name      = "${var.stack_name}-secondary-cloudinit-disk-${count.index}"
+  name      = "${var.company-project_name}-secondary-cloudinit-disk-${count.index}"
   pool      = var.pool
   user_data = data.template_file.secondary-cloud-init.rendered
 }
 
 resource "libvirt_domain" "secondary" {
   count      = var.secondarys
-  name       = "${var.stack_name}-secondary-domain-${count.index}"
+  name       = "${var.company-project_name}-secondary-domain-${count.index}"
   memory     = var.secondary_memory
   vcpu       = var.secondary_vcpu
   cloudinit  = element(libvirt_cloudinit_disk.secondary.*.id, count.index)
@@ -82,12 +82,21 @@ resource "libvirt_domain" "secondary" {
     volume_id = element(libvirt_volume.secondary.*.id, count.index)
   }
 
+#  network_interface {
+#    network_id     = libvirt_network.network.id
+#    hostname       = "${var.company-project_name}-secondary-${count.index}"
+#    addresses      = [cidrhost(var.network_cidr, 512 + count.index)]
+#    wait_for_lease = true
+#  }
+
   network_interface {
-    network_id     = libvirt_network.network.id
-    hostname       = "${var.stack_name}-secondary-${count.index}"
+    network_id     = element(libvirt_network.inside-network.*.id, count.index)
+    hostname       = "${var.company-project_name}-inside-secondary-${count.index}"
     addresses      = [cidrhost(var.network_cidr, 512 + count.index)]
-    wait_for_lease = true
+    wait_for_lease = false
   }
+
+
 
   graphics {
     type        = "vnc"

@@ -51,7 +51,7 @@ data "template_file" "tertiary-cloud-init" {
 }
 
 resource "libvirt_volume" "tertiary" {
-  name           = "${var.stack_name}-tertiary-volume-${count.index}"
+  name           = "${var.company-project_name}-tertiary-volume-${count.index}"
   pool           = var.pool
   size           = var.tertiary_disk_size
   base_volume_id = libvirt_volume.img.id
@@ -61,14 +61,14 @@ resource "libvirt_volume" "tertiary" {
 resource "libvirt_cloudinit_disk" "tertiary" {
   # needed when 0 tertiary nodes are defined
   count     = var.tertiarys
-  name      = "${var.stack_name}-tertiary-cloudinit-disk-${count.index}"
+  name      = "${var.company-project_name}-tertiary-cloudinit-disk-${count.index}"
   pool      = var.pool
   user_data = data.template_file.tertiary-cloud-init.rendered
 }
 
 resource "libvirt_domain" "tertiary" {
   count      = var.tertiarys
-  name       = "${var.stack_name}-tertiary-domain-${count.index}"
+  name       = "${var.company-project_name}-tertiary-domain-${count.index}"
   memory     = var.tertiary_memory
   vcpu       = var.tertiary_vcpu
   cloudinit  = element(libvirt_cloudinit_disk.tertiary.*.id, count.index)
@@ -82,12 +82,21 @@ resource "libvirt_domain" "tertiary" {
     volume_id = element(libvirt_volume.tertiary.*.id, count.index)
   }
 
+#  network_interface {
+#    network_id     = libvirt_network.network.id
+#    hostname       = "${var.company-project_name}-tertiary-${count.index}"
+#    addresses      = [cidrhost(var.network_cidr, 768 + count.index)]
+#    wait_for_lease = true
+#  }
+
   network_interface {
-    network_id     = libvirt_network.network.id
-    hostname       = "${var.stack_name}-tertiary-${count.index}"
+    network_id     = element(libvirt_network.inside-network.*.id, count.index)
+    hostname       = "${var.company-project_name}-inside-tertiary-${count.index}"
     addresses      = [cidrhost(var.network_cidr, 768 + count.index)]
-    wait_for_lease = true
+    wait_for_lease = false
   }
+
+
 
   graphics {
     type        = "vnc"

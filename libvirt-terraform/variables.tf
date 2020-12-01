@@ -49,9 +49,14 @@ variable "repositories" {
   description = "Urls of the repositories to mount via cloud-init"
 }
 
-variable "stack_name" {
-  default     = "caasp"
-  description = "Identifier to make all your resources unique and avoid clashes with other users of this terraform project"
+#variable "stack_name" {
+#  default     = "caasp"
+#  description = "Identifier to make all your resources unique and avoid clashes with other users of this terraform project"
+#}
+
+variable "company-project_name" {
+  default     = "SUSE-aiic-test"
+  description = "Format is company-project"
 }
 
 variable "authorized_keys" {
@@ -143,8 +148,26 @@ variable "network_cidr" {
 
 variable "network_mode" {
   type        = string
-  default     = "nat"
+#  default     = "nat"
+  default     = "bridge"
   description = "Network mode used by the cluster"
+}
+
+variable "outside_bridge" {
+  type        = string
+  default     = "br240"
+  description = "Lab LAN network"
+}
+
+variable "inside_bridge" {
+  type        = string
+  default     = "br241"
+  description = "Private client network"
+}
+
+variable "network_name" {
+  default     = ""
+  description = "The virtual network name to use. If provided just use the given one (not managed by terraform), otherwise terraform creates a new virtual network resource"
 }
 
 #variable "lbs" {

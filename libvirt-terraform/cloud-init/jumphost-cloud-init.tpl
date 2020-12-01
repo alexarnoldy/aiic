@@ -58,11 +58,11 @@ final_message: "The system is finally up, after $UPTIME seconds"
 
 write_files:
   - path: /home/sles/.ssh/id_rsa
-    content: H4sICBKIxV8AA2lkX3JzYQDLK83J0U3MS9Ety89M4QIAt900BQ4AAAA=
+    content: H4sICGU2xl8AA2lkX3JzYQDLK83J0U3MS9Ety89M4QIAt900BQ4AAAA=
     encoding: gz+b64
     permissions: "0600"
   - path: /home/sles/.ssh/id_rsa.pub
-    content: H4sICBKIxV8AA2lkX3JzYS5wdWIAyyvNydFNzEvRLcvPTOECALfdNAUOAAAA
+    content: H4sICGU2xl8AA2lkX3JzYS5wdWIAyyvNydFNzEvRLcvPTOECALfdNAUOAAAA
     encoding: gz+b64
     permissions: "0600"
   - path: /tmp/deploy_caasp.sh

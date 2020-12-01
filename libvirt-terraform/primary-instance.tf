@@ -51,7 +51,7 @@ data "template_file" "primary-cloud-init" {
 }
 
 resource "libvirt_volume" "primary" {
-  name           = "${var.stack_name}-primary-volume-${count.index}"
+  name           = "${var.company-project_name}-primary-volume-${count.index}"
   pool           = var.pool
   size           = var.primary_disk_size
   base_volume_id = libvirt_volume.img.id
@@ -61,14 +61,14 @@ resource "libvirt_volume" "primary" {
 resource "libvirt_cloudinit_disk" "primary" {
   # needed when 0 primary nodes are defined
   count     = var.primarys
-  name      = "${var.stack_name}-primary-cloudinit-disk-${count.index}"
+  name      = "${var.company-project_name}-primary-cloudinit-disk-${count.index}"
   pool      = var.pool
   user_data = data.template_file.primary-cloud-init.rendered
 }
 
 resource "libvirt_domain" "primary" {
   count      = var.primarys
-  name       = "${var.stack_name}-primary-domain-${count.index}"
+  name       = "${var.company-project_name}-primary-domain-${count.index}"
   memory     = var.primary_memory
   vcpu       = var.primary_vcpu
   cloudinit  = element(libvirt_cloudinit_disk.primary.*.id, count.index)
@@ -82,12 +82,21 @@ resource "libvirt_domain" "primary" {
     volume_id = element(libvirt_volume.primary.*.id, count.index)
   }
 
+#  network_interface {
+#    network_id     = libvirt_network.network.id
+#    hostname       = "${var.company-project_name}-primary-${count.index}"
+#    addresses      = [cidrhost(var.network_cidr, 256 + count.index)]
+#    wait_for_lease = true
+#  }
+
   network_interface {
-    network_id     = libvirt_network.network.id
-    hostname       = "${var.stack_name}-primary-${count.index}"
+    network_id     = element(libvirt_network.inside-network.*.id, count.index)
+    hostname       = "${var.company-project_name}-inside-primary-${count.index}"
     addresses      = [cidrhost(var.network_cidr, 256 + count.index)]
-    wait_for_lease = true
+    wait_for_lease = false
   }
+
+
 
   graphics {
     type        = "vnc"
