@@ -63,21 +63,21 @@ jumphost_disk_size = 59055800320
 
 # Number of primary nodes
 primarys = 1
-#primary_memory = 4096
-#primary_vcpu = 2
+primary_memory = 1024
+primary_vcpu = 1
 
 # Number of secondary nodes
-secondarys = 1
-secondary_memory = 4096
+secondarys = 2
+secondary_memory = 1024
 #secondary_memory = 16384
-secondary_vcpu = 2
+secondary_vcpu = 1
 #secondary_vcpu = 12
 
 # Number of tertiary nodes
-tertiarys = 1
-tertiary_memory = 4096
+tertiarys = 3
+tertiary_memory = 1024
 #tertiary_memory = 16384
-tertiary_vcpu = 2
+tertiary_vcpu = 1
 #tertiary_vcpu = 12
 
 # Username for the cluster nodes
@@ -119,7 +119,7 @@ lb_repositories = {}
 #  "ssh-rsa <key2-content>"
 # ]
 authorized_keys = [
-"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGkun2+5NDxqfy995qWNW4dkKZ3GsSGM0S1VG7etZ7KMI8rEZWLjIgQ0BX9ayEAjiY5gUtoaG7P9YO/+O2T+ZOc+A2O4RiRreLNQ9FoLJF0ekfbK6heVLVF1d9z1AHhEulORK8T2Ggn4BIxTv+DDint6ebs+W1DyhCc4o5jCk3mZM19c3N/2yhgfHkDVgrDaxTmrTOAkiZGd26D06X8VteiH3ys/4VtP2j7ZFDJ3Jzz8ySDzRIkJ8OP1KJvHi6uz7aZLh2fLJQsoZttuCWMO7kZGd6OaQn0EJ5FSMAmP6C8b8afybdcMZZ1DaOnKn1Tk6vLeO7uV5squZn3r4t6yAb admin@infra2", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDJibmKAxOZVI0t8Cf/1uEMH/FX8ckSCyQ/xCeeb45LRxzMBmHlGM8hmWg4wSOaJllyt0PuZDbH85zQVJ7NMoNURFntSyEGb6gwikcUoYwMCn9FKL3vIC1VhEpnajG4XLWjcm1GrNpfaYbeeFMG0YgYIDXTRKIKhHwn4y+SiYJ6wU+AHeBYTgLnjOSvUbowfYz499MjIhYlxxIMVhzDnLbtFn1TGuqCcdOqkeB+4iSzdYxe4je8c4aFsczGhj8B9uFHR91Loi8uhp5HK3ea9iLbuckpqzcbYCmT8NnS3DtLa6frRNldkf18to3kt3TlG5lH+3XOZoJEaIk3YPDlZqJVXRSSGTAnXi5eO8xtF9RtYhwDFJ6zJiMZ0MDHTj3r9ax+eQIMZZGgHhuRfAP9zjvizxC0RhkVOzSIGcYHoS08VLzCIBjArxclN+8hOnvDuj37ipcQO/O+xXyO92bKwbW3HH3C+k6Zlj62PPlmyW+fTHwgsMv3EVRAFr70TL2UWXE= sles@aiic-admin"
+"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGkun2+5NDxqfy995qWNW4dkKZ3GsSGM0S1VG7etZ7KMI8rEZWLjIgQ0BX9ayEAjiY5gUtoaG7P9YO/+O2T+ZOc+A2O4RiRreLNQ9FoLJF0ekfbK6heVLVF1d9z1AHhEulORK8T2Ggn4BIxTv+DDint6ebs+W1DyhCc4o5jCk3mZM19c3N/2yhgfHkDVgrDaxTmrTOAkiZGd26D06X8VteiH3ys/4VtP2j7ZFDJ3Jzz8ySDzRIkJ8OP1KJvHi6uz7aZLh2fLJQsoZttuCWMO7kZGd6OaQn0EJ5FSMAmP6C8b8afybdcMZZ1DaOnKn1Tk6vLeO7uV5squZn3r4t6yAb admin@infra2", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDJY2UMJItV35epJbTiR4NFlQS9j6PuqePlFZJVUA+EC6kbh7AhWkwOZuD5zuG5PC4eAj9FJCyxIA6P6AlnpKTwJgRtXlg47ZeilvudculrMNvwwtnzNtfgkDxSxkRY0t5BYTMwLR3Ba0ICSXYhNMI2/o0ikavA3k+jIIgbspGWRfH1LypK3QbFxiiMLDispkO5uTTncX/BrRG4yu6qLOECmpGepggBId3x0Blz/1JIh9M+9udJud8LILEgZ+3TGF+bAt4JCMJrAKfuUa14gduUbQiwYqcfAA79ZOQX6hZdYXzFmzM7NrFvgtpUDu+1PO5ROmE04Jy0vT82ZSJZzvccjncjmG8gN6spCgKh5TEg1tgvzVqEba/OZEffsE/Tsg3xfXOVaf6ekN5n1+Vgj+xHguzSbTqWvN4GFB8tYtQuIm3d8cAHHxB1aBMM9FkDTjNK89ZfxdpZf7UAR41x7WZPNQCL/uty5Tlns4h9B9C8nup56NHVG5W4fn5PocXVdt8= sles@aiic-admin"
 ]
 
 # IMPORTANT: Replace these ntp servers with ones from your infrastructure
