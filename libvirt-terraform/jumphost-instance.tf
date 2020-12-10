@@ -52,7 +52,7 @@ data "template_file" "jumphost-cloud-init" {
 }
 
 resource "libvirt_volume" "jumphost" {
-  name           = "${var.stack_name}-jumphost-volume-${count.index}"
+  name           = "${var.company-project_name}-jumphost-volume-${count.index}"
   pool           = var.pool
   size           = var.jumphost_disk_size
   base_volume_id = libvirt_volume.img.id
@@ -62,14 +62,14 @@ resource "libvirt_volume" "jumphost" {
 resource "libvirt_cloudinit_disk" "jumphost" {
   # needed when 0 jumphost nodes are defined
   count     = var.jumphosts
-  name      = "${var.stack_name}-jumphost-cloudinit-disk-${count.index}"
+  name      = "${var.company-project_name}-jumphost-cloudinit-disk-${count.index}"
   pool      = var.pool
   user_data = data.template_file.jumphost-cloud-init.rendered
 }
 
 resource "libvirt_domain" "jumphost" {
   count      = var.jumphosts
-  name       = "${var.stack_name}-jumphost-domain-${count.index}"
+  name       = "${var.company-project_name}-jumphost-domain-${count.index}"
   memory     = var.jumphost_memory
   vcpu       = var.jumphost_vcpu
   cloudinit  = element(libvirt_cloudinit_disk.jumphost.*.id, count.index)
@@ -83,12 +83,20 @@ resource "libvirt_domain" "jumphost" {
     volume_id = element(libvirt_volume.jumphost.*.id, count.index)
   }
 
+#  network_interface {
+#    network_id     = libvirt_network.network.id
+#    hostname       = "${var.company-project_name}-jumphost-${count.index}"
+#    addresses      = [cidrhost(var.network_cidr, 2 + count.index)]
+#    wait_for_lease = true
+#  }
+
   network_interface {
-    network_id     = libvirt_network.network.id
-    hostname       = "${var.stack_name}-jumphost-${count.index}"
+    network_id     = element(libvirt_network.inside-network.*.id, count.index)
+    hostname       = "${var.company-project_name}-jumphost-${count.index}"
     addresses      = [cidrhost(var.network_cidr, 2 + count.index)]
-    wait_for_lease = true
+    wait_for_lease = false
   }
+
 
   graphics {
     type        = "vnc"

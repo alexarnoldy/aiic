@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## Script to deploy CaaSP clusters via Terraform across a set group of KVM hosts
+## Script to deploy VM clusters via Terraform across a set group of KVM hosts
 
 ###
 #Variables
@@ -27,7 +27,7 @@ ACTION="apply -auto-approve"
 function func_create_company-project_name_and_directory {
 	while :
 	do
-	read -p  "Provide a name for this deployment of CaaS Platform clusters: " COMPANY_PROJECT_NAME
+	read -p  "Provide a name for this cluster deployment: " COMPANY_PROJECT_NAME
 	ls ${STATE_DIR}/ | grep -q ${COMPANY_PROJECT_NAME} &&  read -n1 -p "${COMPANY_PROJECT_NAME} has already been deployed. Would you like to grow it? " GROW || break
 	[ ${GROW} == y ] && break  
 	done
@@ -40,7 +40,7 @@ function func_gather_stack_to_destroy {
 	IFS=$'\n' read -r -d '' -a ALL_STACKS < <( ls ${STATE_DIR} && printf '\0' )
 	clear
 	for EACH in ${!ALL_STACKS[@]}; do printf ${EACH}") "; echo "${ALL_STACKS[EACH]}"; done
-	echo  "Which CaaS Platform deployment would you like to destroy?: " 
+	echo  "Which cluster deployment would you like to destroy?: " 
 	echo ""
 	echo "Acceptable input formats are a single number (i.e. 0),"
 	read -p "space separated list (i.e. 1 3), or a range (i.e. 0..3): " SELECTED_STACKS
@@ -68,7 +68,7 @@ function func_gather_stack_to_destroy {
 function func_select_kvm_hosts_deploy {
 	rm -f /tmp/${COMPANY_PROJECT_NAME}-available-infrastructure-resources
 	## Get the KVM hosts available for this invocation
-	ls ./infrastructure/  >  /tmp/${COMPANY_PROJECT_NAME}-available-infrastructure
+	ls ../infrastructure/  >  /tmp/${COMPANY_PROJECT_NAME}-available-infrastructure
 	## Remove nodes that are already in use by this deployment (in the case of growing a deployment)
 	for HOSTS in $(ls ./state/${COMPANY_PROJECT_NAME}/ | sed 's/.tfstate.*//' | uniq)
 	do 
@@ -78,8 +78,9 @@ function func_select_kvm_hosts_deploy {
 	## Get the amount of free memory available on each remaining host
 	for KVM_HOST in $(cat /tmp/${COMPANY_PROJECT_NAME}-available-infrastructure) 
 	do 
-		KVM_USER=$(awk '/KVM_USER/ {print$2}' ./infrastructure/${KVM_HOST})
-		MEM=$(ssh ${KVM_USER}@${KVM_HOST} grep MemFree /proc/meminfo | awk '{print$2}')
+		KVM_USER=$(awk '/KVM_USER/ {print$2}' ../infrastructure/${KVM_HOST})
+		#MEM=$(ssh ${KVM_USER}@${KVM_HOST} grep MemFree /proc/meminfo | awk '{print$2}')
+		MEM=$(ssh ${KVM_HOST} grep MemFree /proc/meminfo | awk '{print$2}')
 		MEM_FREE=$(echo $((${MEM} / 1024 / 1024)))
 		echo ""${KVM_HOST} has ${MEM_FREE} GB of free memory"" >>  /tmp/${COMPANY_PROJECT_NAME}-available-infrastructure-resources
 	done
@@ -87,9 +88,9 @@ function func_select_kvm_hosts_deploy {
 	mv /tmp/${COMPANY_PROJECT_NAME}-available-infrastructure-resources.tmp /tmp/${COMPANY_PROJECT_NAME}-available-infrastructure-resources
 	## List and select from the available hosts
 	IFS=$'\n' read -r -d '' -a ALL_KVM_HOSTS < <( cat /tmp/${COMPANY_PROJECT_NAME}-available-infrastructure-resources && printf '\0' )
-	#IFS=$'\n' read -r -d '' -a ALL_KVM_HOSTS < <( ls ./infrastructure && printf '\0' )
+	#IFS=$'\n' read -r -d '' -a ALL_KVM_HOSTS < <( ls ../infrastructure/ && printf '\0' )
 	clear
-	echo "Select one or more of the following KVM hosts to target for CaaS Platform cluster deployment:"
+	echo "Select one or more of the following KVM hosts to target for cluster deployment:"
 	for EACH in ${!ALL_KVM_HOSTS[@]}; do printf ${EACH}") "; echo "${ALL_KVM_HOSTS[EACH]}"; done
 	echo ""
 	echo "Acceptable input formats are a single number (i.e. 0),"
@@ -100,7 +101,7 @@ function func_select_kvm_hosts_destroy {
 	ls ${STATE_DIR}/${COMPANY_PROJECT_NAME}
 	IFS=$'\n' read -r -d '' -a ALL_KVM_HOSTS < <( ls ${STATE_DIR}/${COMPANY_PROJECT_NAME}  | sed 's/.tfstate.*//' | uniq && printf '\0' )
 	clear
-	echo "Select one or more of the following KVM hosts to target for CaaS Platform cluster deployment:"
+	echo "Select one or more of the following KVM hosts to target for cluster deployment:"
 	for EACH in ${!ALL_KVM_HOSTS[@]}; do printf ${EACH}") "; echo "${ALL_KVM_HOSTS[EACH]}"; done
 	echo ""
 	echo "Acceptable input formats are a single number (i.e. 0),"
@@ -125,7 +126,7 @@ function func_update_ssh_keys_on_jumphost {
 	./files/file-gzip-encoder-load-in-cloud-init.sh ./files/id_rsa ./cloud-init/jumphost-cloud-init.tpl
 	./files/file-gzip-encoder-load-in-cloud-init.sh ./files/id_rsa.pub ./cloud-init/jumphost-cloud-init.tpl
 	sed -i -e "/^authorized_keys/{n;d}" terraform.tfvars
-	sed -i -e "/^authorized_keys/a \"$(awk '/PUB_KEY/ {$1=""; print $0}' infrastructure/${KVM_HOST} | sed 's/^ //')\",\ \"$(cat files/id_rsa.pub)\"" terraform.tfvars
+	sed -i -e "/^authorized_keys/a \"$(awk '/PUB_KEY/ {$1=""; print $0}' ../infrastructure/${KVM_HOST} | sed 's/^ //')\",\ \"$(cat files/id_rsa.pub)\"" terraform.tfvars
 	rm -f ./files/id_rsa* 
 }
 
@@ -158,7 +159,7 @@ case ${SELECTED_KVM_HOSTS} in
 	       for EACH in $(eval echo "{$SELECTED_KVM_HOSTS}")
 	       do 
 		       KVM_HOST=$(echo ${ALL_KVM_HOSTS[EACH]} | awk '{print$1}')
-		       KVM_USER=$(awk '/KVM_USER/ {print$2}' infrastructure/${KVM_HOST}) 
+		       KVM_USER=$(awk '/KVM_USER/ {print$2}' ../infrastructure/${KVM_HOST}) 
 		       [ $DEPLOYorDESTROY = cluster-deploy.sh ] && func_update_ssh_keys_on_jumphost
 		       func_exec_tf_action
 		       [ $DEPLOYorDESTROY = cluster-destroy.sh ] && rm ${STATE_DIR}/${COMPANY_PROJECT_NAME}/${KVM_HOST}*
@@ -169,7 +170,7 @@ case ${SELECTED_KVM_HOSTS} in
                for EACH in $(echo ${SELECTED_KVM_HOSTS})
                do
 		       KVM_HOST=$(echo ${ALL_KVM_HOSTS[EACH]} | awk '{print$1}')
-		       KVM_USER=$(awk '/KVM_USER/ {print$2}' infrastructure/${KVM_HOST}) 
+		       KVM_USER=$(awk '/KVM_USER/ {print$2}' ../infrastructure/${KVM_HOST}) 
 		       [ $DEPLOYorDESTROY = cluster-deploy.sh ] && func_update_ssh_keys_on_jumphost
 		       func_exec_tf_action
 		       [ $DEPLOYorDESTROY = cluster-destroy.sh ] && rm ${STATE_DIR}/${COMPANY_PROJECT_NAME}/${KVM_HOST}*

@@ -39,6 +39,7 @@ variable "pool" {
 }
 
 variable "image_uri" {
+#  default     = "images/SLES15-SP2-JeOS.x86_64-15.2-OpenStack-Cloud-GM.qcow2"
   default     = "images/SLES15-SP1-JeOS.x86_64-15.1-OpenStack-Cloud-QU2.qcow2"
   description = "URL of the image to use"
 }
@@ -130,7 +131,8 @@ variable "ha_registry_code" {
 }
 
 variable "rmt_server_name" {
-  default     = "rmt.hol1289.local"
+  default     = "rmt.stable.suse.lab"
+#  default     = "rmt.hol1289.local"
   description = "SUSE Repository Mirroring Server Name. Don't include http(s)://"
 }
 

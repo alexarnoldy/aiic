@@ -47,7 +47,7 @@ libvirt_keyfile = ""
 # Set create_lb to false when deploying on a single KVM host, and true when deploying across multiple KVM hosts (when that feature is available)
 # Note that the jumphost node will eventually be configured to provide a single load balancer instance
 # Enable creation of LB node
-create_lb = false
+#create_lb = false
 #lbs = 0
 #lb_memory = 4096
 #lb_vcpu = 1
@@ -67,17 +67,17 @@ primary_memory = 1024
 primary_vcpu = 1
 
 # Number of secondary nodes
-secondarys = 2
+secondarys = 0
 secondary_memory = 1024
 #secondary_memory = 16384
-secondary_vcpu = 1
+secondary_vcpu = 2
 #secondary_vcpu = 12
 
 # Number of tertiary nodes
-tertiarys = 3
+tertiarys = 0
 tertiary_memory = 1024
 #tertiary_memory = 16384
-tertiary_vcpu = 1
+tertiary_vcpu = 4
 #tertiary_vcpu = 12
 
 # Username for the cluster nodes
@@ -119,7 +119,7 @@ lb_repositories = {}
 #  "ssh-rsa <key2-content>"
 # ]
 authorized_keys = [
-"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGkun2+5NDxqfy995qWNW4dkKZ3GsSGM0S1VG7etZ7KMI8rEZWLjIgQ0BX9ayEAjiY5gUtoaG7P9YO/+O2T+ZOc+A2O4RiRreLNQ9FoLJF0ekfbK6heVLVF1d9z1AHhEulORK8T2Ggn4BIxTv+DDint6ebs+W1DyhCc4o5jCk3mZM19c3N/2yhgfHkDVgrDaxTmrTOAkiZGd26D06X8VteiH3ys/4VtP2j7ZFDJ3Jzz8ySDzRIkJ8OP1KJvHi6uz7aZLh2fLJQsoZttuCWMO7kZGd6OaQn0EJ5FSMAmP6C8b8afybdcMZZ1DaOnKn1Tk6vLeO7uV5squZn3r4t6yAb admin@infra2", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC6gNhnQe0q0wknKdl5/gQBKCcJKI38j/4A9nV349uDVkt6BZB2uFwd2IBvIp1JxYrUB4AoRNTrllMHX/v/D9Lg5hjcpv4Y9KBqrh3KGTfWNW3RDU3IILq+s2yFEe/M/0HPXew1uQsxc57k88Ix5B0wbZON6EzHeNhJuo/E0zezlVQ0qIHEnljXn5R5baZpek4QdJ+ywzw5OHiBuXvazKN8VDqMozjcxEhUoLhIqlPrmUmZ3nGQUDk8nKg2WDTpVMj8idJHSZ+gyHVwGF6aI9IcGOpIqTHJwomjfl6flxadEocTAFfETf+mRC2n/9sIxtKAI2Wi3Kr82loHrT7J8yMCIkfB/fsiSrhRA6UrxxVSzdCOZ9KybL3WxQh0544xmehyZzcAmiIFpAKJy9RV6mU29nH3cJcjteLqDwEiwoqpTvXq1fQRH7qhzPaNIKSAX6tOCy+xzqRVfm83uyJFd1jmGSI4tuWf/TNwI3uu6Mxa3dVW3akAK+/Jd/Uz3ZHgyaM= sles@aiic-admin"
+"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC6RX3hB2ZmiteyeUwhQBHGBH9uAI1zPNT8ktGVx6XijbWHa2CMukCvtF1Z27tcabqDZmAwSnm8zsYxLOw01e2gnpoRCd/XDjs+jKiTK2+JCrhYeUdkcIdYsurQ/km7H4lIzDNoH8fVS+/Q1yKYT/Y2bQmKKSIb40JDDLFNJl0Wkek0n6NXbGILM6aCUI6GwwRCeqpfNAhFR9bJKCA8fT89kiB3n2bjcbWvCbvVJXZUzsq6D+d3UIAh43ZV6OTAF04vE3C//pj8HsBnjQgBKql05lL+6fl5nAKK0aEc/VHEZ/gz2y5dxj69yfe84Xd7oOWYbJTDFxVlvNWyZ10IZR0v4RkQmjBYFRwQmWn9fDQ76KFoW2xYe+sYaY7RfUfp+TEfz0+yIdSzqe0685oNoTBfWA0/cpdAjPo1LXoBrLJkKO5Hu+seQkMa+/m7H3BPuXqHhZu815ubMyvC42H9MiBEs5UFjjOZZUsv6OoV40GeTY1Wse1112Aj+uOSILMvULk= sles@c3-b10.stable.suse.lab", "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC+FToq+7JLjKg/GIW0xPFu/htRu0uoTrdnocJwFBdti+OqgD750aqOi+DNBdz3vVbv7taoPvQA47vAAej/uVzJmf+clkU/A4SpxH2G7/tcRIFxC2kQoVQhimIUaEJ+f7wcXl0jGCeiWB/wHoN52itocElsWFBF6giGehwxWpy7OmHuKa2aLv6TNMhjFmN932vur3rG5JATivVPx7sPv/8uJrB4L+/VqB2YbAb2w0m5DJPXSlhTPJGQRxHKBZw1a1MEje20Tqh5r0BhQcH4pPci6XAVwN9PfotLMuRtWJ/nA6GZ8uMiETqSFDDEltBJwDOH+AmYeUJbKJ9mjhARoTQiR1/XXGJZIqzj4b1bTbVtQeRsj7VwTG1u90/BPZCOmjI3L86MPHNy5YPBWPwrdQM2Mhzm+/vdDdms45ooGFlP96Y5yBVKHiAd0Fc1bC1vjw+Qe3IKUwKkgfdf6CJODZLZ0LZtB4Rzch65iqpjY9PBchJ9Fy7pGZtoRHHIWgCFDac= sles@aiic-admin"
 ]
 
 # IMPORTANT: Replace these ntp servers with ones from your infrastructure

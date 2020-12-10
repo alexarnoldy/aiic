@@ -1,6 +1,13 @@
 ## Set stack name with first command argument
 #STACK_NAME=$1
 STACK_NAME=test
+## Assign variables from command arguments
+#PRIMARY_INSTANCES=$2
+#SECONDARY_INSTANCES=$3
+#TERTIARY_INSTANCES=$4
+PRIMARY_INSTANCES=7
+SECONDARY_INSTANCES=3
+TERTIARY_INSTANCES=1
 
 ## Create list of eligible KVM hosts, sorted by the highest amount of free memory
 rm -f /tmp/${STACK_NAME}-available-infrastructure-resources
@@ -39,13 +46,6 @@ echo "${HOST}_secondary_instances=0" >> "${TMP_FILE}_secondary_instances"
 echo "${HOST}_tertiary_instances=0" >> "${TMP_FILE}_tertiary_instances"
 done
 
-## Assign variables from command arguments
-#PRIMARY_INSTANCES=$2
-#SECONDARY_INSTANCES=$3
-#TERTIARY_INSTANCES=$4
-PRIMARY_INSTANCES=7
-SECONDARY_INSTANCES=3
-TERTIARY_INSTANCES=1
 
 ## While loop to sort the number of primary instances across the eligible KVM hosts
 while [ ${PRIMARY_INSTANCES} -gt 0 ]
