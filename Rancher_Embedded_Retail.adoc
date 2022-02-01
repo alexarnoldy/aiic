@@ -3,6 +3,7 @@
 SUSE Rancher provides the following capabilities for a Retail Point-of-Service use case:
 * Deploy, update, and remove Kubernetes applications automatically
 * Deploy, update, and remove Kubernetes applications on-demand
+** All container images are secured with a SHA256 hash
 * Manage RBAC consistently across Kubernetes clusters
 * Enable the application of corporate security policies across clusters based on their role in the environment
 * Change the applications on a cluster by changing the labels applied to it
@@ -10,4 +11,14 @@ SUSE Rancher provides the following capabilities for a Retail Point-of-Service u
 * Automatically configure audit logging and shipping configurations
 ** Ensures any intrusions cannot be covered up by the intruder
 
-
+Retail environment particulars:
+* Standardized on two POS units
+** Point of Sale only unit
+*** Netboot is only option. Loads new copy of SLEMicro+K3s cloud-image on power up
+*** Automatically imports into SUSE Rancher server
+*** SUSE Rancher automatically loads Point of Sale software 
+** More powerful service/management unit that can be used as Point of Sale role, if needed
+*** Netboot is preferred option, can load local copy of SLEMicro+K3s
+* Production network is completely separate from customer WiFi network
+** Production network remains air-gapped except for short periods of time for uploading store data and downloading updated software
+*** Opening the production network occurs on a rotating schedule
