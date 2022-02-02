@@ -25,7 +25,7 @@ Retail environment particulars:
 
 ### Overview
 
-This design was specifically created for a retail outlet with no on-site IT support. Retail locations are especially vulnerable to attack because they are highly visible and rarely have the same level of high-cost network protection that a datacenter or cloud-provider has. The challenges to maintaining effective compute resources at a retail outlet are numerous.This design emphasizes security and ease of use for the on-site staff. Only the most basic skills of plugging in cables, powering on, and logging in are required of the on-site managers. Automation through Linux network boot and Rancher complete all of the tasks needed to provision each POS unit to the task required of it.
+This design was specifically created for a retail outlet with no on-site IT support. Retail locations are especially vulnerable to attack because they are highly visible and rarely have the same level of high-cost network protection as does a datacenter or cloud-provider. The challenges to maintaining effective compute resources at a retail outlet are numerous.This design emphasizes security and ease of use for the on-site staff. Only the most basic skills of plugging in cables, powering on, and logging in are required of the on-site managers. Automation through Linux network boot and Rancher complete all of the tasks needed to provision each POS unit to the task required of it.
 
 ### Architecture
 
