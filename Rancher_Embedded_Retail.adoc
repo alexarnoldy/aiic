@@ -1,11 +1,11 @@
 ## Embedded SUSE Rancher for Retail Point-of-Service
 
-SUSE Rancher provides the following capabilities for a Retail Point-of-Service use case:
-* Deploy, update, and remove Kubernetes applications automatically
-* Deploy, update, and remove Kubernetes applications on-demand
-** All container images are secured with a SHA256 hash
-* Manage RBAC consistently across Kubernetes clusters
-* Enable the application of corporate security policies across clusters based on their role in the environment
+SUSE Rancher provides the following capabilities for a Retail Point-of-Service use case:  
+* Deploy, update, and remove Kubernetes applications automatically  
+* Deploy, update, and remove Kubernetes applications on-demand  
+** All container images are secured with a SHA256 hash  
+* Manage RBAC consistently across Kubernetes clusters  
+* Enable the application of corporate security policies across clusters based on their role in the environment  
 * Change the applications on a cluster by changing the labels applied to it
 ** Useful when changing a POS system's location or function. I.e. Moving a management station into a Point-of-Purchase location to replace unusable systems
 * Automatically configure audit logging and shipping configurations
