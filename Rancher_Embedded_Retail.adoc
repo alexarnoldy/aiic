@@ -23,15 +23,23 @@ Retail environment particulars:
 ** Production network remains air-gapped except for short periods of time for uploading store data and downloading updated software
 *** Opening the production network to the Internet occurs on a rotating schedule
 
+### The Challenge
+
+Maintaining modern applications and infrastructure at a retail location can provide significant and unique challenges. Retail locations are especially vulnerable to attack because they are highly visible and rarely have the same level of high-cost network protection as does a datacenter or cloud-provider. As well, without well trained IT staff on-site, an attacker has a better chance of entering, acting and moving laterally without detection. Basing a retail location's infrastructure on a flexible, and highly immutable operating system like SUSE SLE Micro is the first step in protecting it from attack.
+
+Businesses rely on a full suite of applications for every business critical operation. Often, application specialists are needed to ensure correct configuration and optimal operation. However, it's certainly not possible to maintain application specialists at every retail location, and without the proper infrastructure, remotely managing infrastructure is cumbersome and error prone. Fortunately, SUSE's own K3s distribution of Kubernetes is the perfect infrastructure component to solve this problem.
+
 ### Overview
 
-This design was specifically created for a retail outlet with no on-site IT support. Retail locations are especially vulnerable to attack because they are highly visible and rarely have the same level of high-cost network protection as does a datacenter or cloud-provider. The challenges to maintaining effective compute resources at a retail outlet are numerous.This design emphasizes security and ease of use for the on-site staff. Only the most basic skills of plugging in cables, powering on, and logging in are required of the on-site managers. Automation through Linux network boot and Rancher complete all of the tasks needed to provision each POS unit to the task required of it.
+This design was specifically created for a retail outlet with no on-site IT support. The challenges to maintaining effective compute resources at a retail outlet are numerous.This design emphasizes security and ease of use for the on-site staff. Only the most basic skills of plugging in cables, powering on, and logging in are required of the on-site managers. Automation through Linux network boot and Rancher complete all of the tasks needed to provision each POS unit to the task required of it.
 
 ### Architecture
 
 The lowest level of the architecture is the ability to netboot the Point-of-Purchase and management units with a validated copy of SLEMicro and K3s. This single image is delivered to all units, significantly reducing the maintenance required for the lion's share of the software stack. That SLEMicro runs as an immutable O/S in terms of installed binaries, and K3s is delivered as a single, static binary presents a much reduced attack surface area as compared to standard server operating systems and virtually any other Kubernetes distribution.
 
 Utilizing a single O/S plus Kubernetes image across all platforms leaves the uniqueness of each unit in the hands of the Kubernetes-native application layer. After netbooting a unit, the employee or manager logs into  the unit with their id and passcode. They are first met with a simple menu that allows them to select the function of the unit, i.e. point-of-purchase-lane-4 or general-manager-station. The selected function applies Kubernetes labels to the unit, which SUSE Rancher uses to populate the unit with the applications and settings it will use in its new function. Troubleshooting problematic units is no more difficult than removing it and plugging in a spare. 
+
+While SUSE Rancher is and the netboot infrastructure is critical to bringing units online, each unit can 
 
 ### Application delivery and updating
 
@@ -41,4 +49,4 @@ Inevitably, applications will need updated to resolve bugs, security flaws and a
 
 ### Centralized Role Based Access Control
 
-With SUSE Rancher managing the roles and privileges granted to users and groups of users, every Kubernetes cluster at the retail location is guaranteed to have a consistent, well understood set of policies configured appropriately for its function.
+With SUSE Rancher managing the roles and privileges granted to individual users and groups of users, every Kubernetes cluster at the retail location is guaranteed to have a consistent, well understood set of policies configured appropriately for its function. 
