@@ -5,7 +5,7 @@ SUSE Rancher provides the following capabilities for a Retail Point-of-Service u
 * Deploy, update, and remove Kubernetes applications on-demand  
 ** All container images are secured with a SHA256 hash  
 * Manage RBAC consistently across Kubernetes clusters  
-* Enable the application of corporate security policies across clusters based on their role in the environment  
+* Enable the application of corporate security policies across clusters based on their function in the environment  
 * Change the applications on a cluster by changing the labels applied to it
 ** Useful when changing a POS system's location or function. I.e. Moving a management station into a Point-of-Purchase location to replace unusable systems
 * Automatically configure audit logging and shipping configurations
@@ -17,7 +17,7 @@ Retail environment particulars:
 *** Netboot is only option. Loads new copy of SLEMicro+K3s cloud-image on power up
 *** Automatically imports into SUSE Rancher server
 *** SUSE Rancher automatically loads Point-of-Purchase software 
-** More powerful Management unit that can be used as Point-of-Purchase role, if needed
+** More powerful Management unit that can be used as Point-of-Purchase function, if needed
 *** Netboot is preferred option, can load local copy of SLEMicro+K3s
 * Production network is completely separate from customer WiFi network
 ** Production network remains air-gapped except for short periods of time for uploading store data and downloading updated software
@@ -31,10 +31,14 @@ This design was specifically created for a retail outlet with no on-site IT supp
 
 The lowest level of the architecture is the ability to netboot the Point-of-Purchase and management units with a validated copy of SLEMicro and K3s. This single image is delivered to all units, significantly reducing the maintenance required for the lion's share of the software stack. That SLEMicro runs as an immutable O/S in terms of installed binaries, and K3s is delivered as a single, static binary presents a much reduced attack surface area as compared to standard server operating systems and virtually any other Kubernetes distribution.
 
-Utilizing a single O/S plus Kubernetes image across all platforms leaves the uniqueness of each unit in the hands of the Kubernetes-native application layer. After netbooting a unit, the employee or manager logs into  the unit with their id and passcode. They are first met with a simple menu that allows them to select the role of the unit, i.e. point-of-purchase-lane-4 or general-manager-station. The selected role applies Kubernetes labels to the unit, which SUSE Rancher uses to populate the unit with the applications and settings it will use in its new role. Troubleshooting problematic units is no more difficult than removing it and plugging in a spare. 
+Utilizing a single O/S plus Kubernetes image across all platforms leaves the uniqueness of each unit in the hands of the Kubernetes-native application layer. After netbooting a unit, the employee or manager logs into  the unit with their id and passcode. They are first met with a simple menu that allows them to select the function of the unit, i.e. point-of-purchase-lane-4 or general-manager-station. The selected function applies Kubernetes labels to the unit, which SUSE Rancher uses to populate the unit with the applications and settings it will use in its new function. Troubleshooting problematic units is no more difficult than removing it and plugging in a spare. 
 
 ### Application delivery and updating
 
 As the K3s, single-node cluster on each unit is imported into the on-site SUSE Rancher server, Rancher Continuous Delivery identifies the applications the unit will need by the labels that were applied to the cluster during the login process. The appropriate Kubernetes applications are automatically deployed and run on the unit. In addition, setting that establish uniqueness of the unit, i.e. the Point of Purchase Lane 1 versus Point of Purchase Lane 2, are applied. These settings allow several things including logging of transactions and system status to be exported to an on-site central logging server.
 
 Inevitably, applications will need updated to resolve bugs, security flaws and add new features. Rancher Continuous Delivery handles this as well. During the rotating, nightly update window Rancher Continuous Delivery will authenticate with the production GitHub compatible repository and download any software changes. These can include new applications as well as updates to existing applications. Rancher Continuous Delivery can be configured to apply the changes immediately (the preferred method), or only after the new software bundle version has been approved by on-site management team. 
+
+### Centralized Role Based Access Control
+
+With SUSE Rancher managing the roles and privileges granted to users and groups of users, every Kubernetes cluster at the retail location is guaranteed to have a consistent, well understood set of policies configured appropriately for its function.
