@@ -12,13 +12,16 @@ SUSE Rancher provides the following capabilities for a Retail Point-of-Service u
 ** Ensures any intrusions cannot be covered up by the intruder
 
 Retail environment particulars:
-* Standardized on two POS units
-** Point-of-Purchase only unit
-*** Netboot is only option. Loads new copy of SLEMicro+K3s cloud-image on power up
+* Standardized on a single Point-of-Service unit
+** Can be used as: 
+*** Point-of-Purchase unit
+*** Installed with a standardized SLEMicro+K3s image
 *** Automatically imports into SUSE Rancher server
 *** SUSE Rancher automatically loads Point-of-Purchase software 
-** More powerful Management unit that can be used as Point-of-Purchase function, if needed
-*** Netboot is preferred option, can load local copy of SLEMicro+K3s
+*** Point-of-Service unit
+*** Installed with the same standardized SLEMicro+K3s image as POP unit
+*** Automatically imports into SUSE Rancher server
+*** SUSE Rancher automatically loads software appropriate to function, i.e. back-office-management, shipping-and-receiving, stock-management
 * Production network is completely separate from customer WiFi network
 ** Production network remains air-gapped except for short periods of time for uploading store data and downloading updated software
 *** Opening the production network to the Internet occurs on a rotating schedule
@@ -37,11 +40,9 @@ This design was specifically created for a retail outlet with no on-site IT supp
 
 ### Architecture
 
-The lowest level of the architecture is the ability to netboot the Point-of-Purchase and management units with a validated copy of SLEMicro and K3s. This single image is delivered to all units, significantly reducing the maintenance required for the lion's share of the software stack. That SLEMicro runs as an immutable O/S in terms of installed binaries, and K3s is delivered as a single, static binary presents a much reduced attack surface area as compared to standard server operating systems and virtually any other Kubernetes distribution.
+All Point-of-Service units are installed with the same image of SLE Micro and K3s. Using a single image on all units significantly reducing the maintenance required for the lion's share of the software stack. That SLEMicro runs as an immutable O/S in terms of installed binaries, and K3s is delivered as a single, static binary presents a much reduced attack surface area as compared to standard server operating systems and virtually any other Kubernetes distribution.
 
-Utilizing a single O/S plus Kubernetes image across all functions leaves the uniqueness of each unit in the hands of the Kubernetes-native application layer. After netbooting a unit, the employee or manager logs into the unit with their userid and passcode. Logging initially presents a simple menu that allows selecting the function of the unit, i.e. point-of-purchase-lane-4 or general-manager-station. The selected function applies Kubernetes labels to the single-node K3s cluster on the unit, which SUSE Rancher uses to populate the unit with the applications and settings it will use in its new function. Troubleshooting problematic units is no more difficult than removing it and plugging in a spare. 
-
-While SUSE Rancher is and the netboot infrastructure is critical to bringing units online, each unit can 
+Utilizing a single O/S plus Kubernetes image across all functions leaves the uniqueness of each unit in the hands of the Kubernetes-native application layer. Upon power up, the function of the unit, i.e. point-of-purchase-lane-4 or general-manager-station can be established with cluster labels applied to the single-node K3s cluster on the unit. SUSE Rancher uses the labels to populate the unit with the applications and settings it will use in its new function. Troubleshooting problematic units is no more difficult than replacing with a spare unit.
 
 ### Application delivery and updating
 
