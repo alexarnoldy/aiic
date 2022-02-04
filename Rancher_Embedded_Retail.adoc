@@ -25,9 +25,11 @@ Retail environment particulars:
 
 ### The Challenge
 
-Maintaining modern applications and infrastructure at a retail location can provide significant and unique challenges. Retail locations are especially vulnerable to attack because they are highly visible and rarely have the same level of high-cost network protection as does a datacenter or cloud-provider. As well, without well trained IT staff on-site, an attacker has a better chance of entering, acting and moving laterally without detection. Basing a retail location's infrastructure on a flexible, and highly immutable operating system like SUSE SLE Micro is the first step in protecting it from attack.
+Maintaining modern applications and infrastructure at a retail location can provide significant and unique challenges. Retail locations are especially vulnerable to attack because they are highly visible and rarely have the same level of high-cost network protection as does a datacenter or cloud-provider. As well, without well trained IT staff on-site, an attacker has a better chance of entering, acting and moving laterally without detection. Basing a retail location's infrastructure on a secure, transactional operating system like SUSE SLE Micro is the first step in protecting against malicious actors.
 
-Businesses rely on a full suite of applications for every business critical operation. Often, application specialists are needed to ensure correct configuration and optimal operation. However, it's certainly not possible to maintain application specialists at every retail location, and without the proper infrastructure, remotely managing infrastructure is cumbersome and error prone. Fortunately, SUSE's own K3s distribution of Kubernetes is the perfect infrastructure component to solve this problem.
+Businesses rely on a full suite of applications to run at peak efficiency and require application specialists to ensure correct configuration and optimal operation. However, it's certainly not possible to maintain application specialists at every retail location, and without the proper infrastructure, remotely managing infrastructure is cumbersome and extremely risky. Fortunately, SUSE Rancher and K3s distribution of Kubernetes are the perfect application management platform to solve this problem.
+
+Applications and infrastructure that require an "always on" network connection from a retail location to corporate headquarters creates a massive attack surface area. Fortunately, SUSE Rancher's architecture is designed specifically for interrupted communication, both upstream and downstream. This allows the retail location to keep it's production network disconnected from the Internet for long periods of time. SUSE Rancher has no problem dealing with short, and random, windows of communication with its upstream resources. 
 
 ### Overview
 
@@ -46,6 +48,7 @@ While SUSE Rancher is and the netboot infrastructure is critical to bringing uni
 As the K3s, single-node cluster on each unit is imported into the on-site SUSE Rancher server, Rancher Continuous Delivery identifies the applications the unit will need by the labels that were applied to the cluster during the login process. The appropriate Kubernetes applications are automatically deployed and run on the unit. In addition, setting that establish uniqueness of the unit, i.e. the Point of Purchase Lane 1 versus Point of Purchase Lane 2, are applied. These settings allow several things including logging of transactions and system status to be exported to an on-site central logging server.
 
 Inevitably, applications will need updated to resolve bugs, security flaws and add new features. Rancher Continuous Delivery handles this as well. During the rotating, nightly update window Rancher Continuous Delivery will authenticate with the production GitHub compatible repository and download any software changes. These can include new applications as well as updates to existing applications. Rancher Continuous Delivery can be configured to apply the changes immediately (the preferred method), or only after the new software bundle version has been approved by on-site management team. 
+
 
 ### Centralized Role Based Access Control
 
