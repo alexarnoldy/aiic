@@ -36,11 +36,15 @@ Applications and infrastructure that require an "always on" network connection f
 
 ### Overview
 
-This design was specifically created for providers of IT infrastructure software and hardware designed for retail outlets with no on-site IT support. This design emphasizes security and ease of use for the on-site staff. The two primary components of the installation are the highly available installation of SUSE Rancher and the Point-of-Service units that are pre-installed with a hardened and standardized image of SLE Micro with a K3s configured as a single-node cluster. 
+This design was specifically created for providers of IT software and hardware designed for retail outlets with no on-site IT support. It emphasizes a high level of security, ease of management for remote IT management staff, and ease of use for on-site staff. The two primary components of the installation are the highly available installation of SUSE Rancher and the Point-of-Service units that are pre-installed with a hardened and standardized image of SLE Micro with a K3s configured as a single-node cluster. 
 
 SUSE Rancher server provides a stable platform for the orchestration of the Kubernetes-native applications that run on the Point-of-Service units. Rancher is flexible that it can even apply different applications to units that are being used for different functions, such as a management workstation. The unique combination of SLE Micro, K3s, and Rancher is able to achieve the highest level of software stability such that only the most basic skills of plugging in cables, powering on, and logging in are usually required for retail location staff to keep their store running at peak efficiency. 
 
+SLE Micro is an ultra-reliable, lightweight operating system purpose built for containerized and virtualized workloads. It leverages the enterprise hardened security and compliance components of SUSE Linux Enterprise and merges them with a modern, immutable, developer-friendly OS platform.
+
 Utilizing a standardized O/S plus Kubernetes image across all Point-of-Service units significantly reduces the maintenance required for the lion's share of the software stack. This design also leaves the uniqueness of each unit in the hands of the Kubernetes-native application layer. In the dynamic environment of a retail location, these units are fully interchangeable and flexible. 
+
+Immutable OS. SLE Micro is a lightweight immutable OS that’s optimized for edge use cases. Its immutable design ensures OS is not altered during runtime and runs reliably every single time. Further, SLE Micro leverages enterprise-hardened SLE common code base to provide enterprise-grade quality and reliability. 
 
 That SLEMicro runs as an immutable O/S in terms of installed binaries, and K3s is delivered as a single, completely static binary presents a much reduced attack surface area as compared to traditional operating systems and Kubernetes distributions.
 
