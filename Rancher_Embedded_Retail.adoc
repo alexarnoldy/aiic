@@ -69,3 +69,4 @@ While some applications, like those supporting a point-of-purchase unit are best
 
 One of the most valuable tool Kubernetes provides as an application platform is the ability to constantly monitor and log all requests made to the Kubernetes cluster. This information is invaluable in discovering unexpected queries and changes. As well, continuously sending these logs to an on-site, central logging service, makes it quicker to detect intrusions, and much harder for intruders to cover their tracks.
 
+// vim: set syntax=asciidoc:
