@@ -50,15 +50,20 @@ Upon power up/boot up, the function of the Point-of-Service unit, i.e. point-of-
 
 Effective security is applied consistently across each layer of the architecture. SUSE Rancher supports this perfectly by allows Role Based Access Control programmatically across all Points-of-Service units. This can include assuring that only management staff can access business critical units and applications.
 
-### Application delivery and updating
-
-As the K3s, single-node cluster on each unit is imported into the on-site SUSE Rancher server, Rancher Continuous Delivery identifies the applications to be delivered to the unit based on the labels applied to the cluster. The appropriate Kubernetes applications are automatically deployed and run on the unit. In addition, settings that establish uniqueness of the unit, i.e. the Point of Purchase Lane 1 versus Point of Purchase Lane 2, are applied. These settings allow unique data, including logging of transactions and system status, to be exported to an on-site central logging server. For an optimum security posture, it is recommended that the logging server be separate from the SUSE Rancher cluster.
-
-Inevitably, applications will need updated to resolve bugs, security flaws and add new features. Rancher Continuous Delivery handles this as well. During the rotating, nightly update window Rancher Continuous Delivery will authenticate with the production GitHub compatible repository and download any software changes. These can include new applications as well as updates to existing applications. Rancher Continuous Delivery can be configured to apply the changes immediately, or only after the new software bundle version has completed an established approval process.
-
 ### Centralized Role Based Access Control
 
 With SUSE Rancher managing the roles and privileges granted to individual users and groups of users, every Kubernetes cluster at the retail location is guaranteed to have a consistent, well understood set of policies configured to allow the minimum access required for each job function. This applies to on-site staff as well as IT operations staff managing the location's infrastructure remotely. 
+
+### Automatic Application Delivery and Management
+
+SUSE Rancher Continuous Delivery is the key to effective application deployment and management at remote sites, including retail store locations. While its capabilities are quite advanced, its base operational methods are quite easy to understand. As the K3s, single-node cluster on each unit is imported into the on-site SUSE Rancher server, Rancher Continuous Delivery identifies the applications to be delivered to the unit based on the labels applied to the cluster. The appropriate Kubernetes applications are automatically deployed and run on the unit. In addition, settings that establish uniqueness of the unit, i.e. the Point of Purchase Lane 1 versus Point of Purchase Lane 2, are applied. These settings allow unique data, including logging of transactions and system status, to be exported to an on-site central logging server. For an optimum security posture, it is recommended that the logging server be separate from the SUSE Rancher cluster.
+
+Inevitably, applications will need updated to resolve bugs, security flaws and add new features. Rancher Continuous Delivery handles this as well. During the rotating, nightly update window Rancher Continuous Delivery will authenticate with the production GitHub compatible repository and download any software changes. These can include new applications as well as updates to existing applications. Rancher Continuous Delivery can be configured to apply the changes immediately, or only after the new software bundle version has completed an established approval process.
+
+### On-Demand Application Delivery and Management
+
+While some applications, like those supporting a point-of-purchase unit are best deployed and run automatically, certain applications are best deployed and run only when needed. These would include applications that have high resource consumption or would benefit from a reduced attack surface area. For this reason SUSE Rancher allows deploying, running, and removing applications on-demand from its application catalog. After all, it's hard to imagine a smaller attack surface than an application that isn't currently installed. This ability is, of course, restricted by Rancher centralized Role Based Access Control.
+
 
 ### Kubernetes Level Audit Logging
 
