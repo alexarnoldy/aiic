@@ -41,19 +41,24 @@ SUSE Rancher is capable of managing the roles and privileges granted to headquar
 
 ### Automatic Application Delivery and Management
 
-SUSE Rancher Continuous Delivery is the key to effective application deployment and management at remote sites, including retail store locations. While its capabilities are quite advanced, its base operational methods are quite easy to understand. As the K3s, single-node cluster on each unit is imported into the on-site SUSE Rancher server, Rancher Continuous Delivery identifies the applications to be delivered to the unit based on the labels applied to the cluster. The appropriate Kubernetes applications are automatically deployed and run on the unit. In addition, settings that establish uniqueness of the unit, i.e. the Point of Purchase Lane 1 versus Point of Purchase Lane 2, are applied. These settings allow unique data, including logging of transactions and system status, to be exported to an on-site central logging server. For an optimum security posture, it is recommended that the logging server be separate from the SUSE Rancher cluster.
+SUSE Rancher Continuous Delivery is the key to effective application deployment and management at remote sites, including retail store locations. While its capabilities are quite advanced, its base operational methods are quite easy to understand. As the K3s, single-node cluster on each unit is imported into the on-site SUSE Rancher server, Rancher Continuous Delivery identifies the applications to be delivered to the unit based on the labels applied to the cluster. The appropriate Kubernetes applications are automatically deployed and run on the unit. The level of granularity of the labels can be very high, such as the unit's primary function, or down to the level individual applications and configurations. 
+
+In addition, settings that establish uniqueness of the unit, i.e. the Point of Purchase Lane 1 versus Point of Purchase Lane 2, are applied. These settings allow unique data, including logging of transactions and system status, to be exported to an on-site central logging server. For an optimum security posture, it is recommended that the logging server be separate from the SUSE Rancher cluster.
 
 Inevitably, applications will need updated to resolve bugs, security flaws and add new features. Rancher Continuous Delivery handles this as well. During the rotating, nightly update window Rancher Continuous Delivery will authenticate with the production GitHub compatible repository and download any software changes. These can include new applications as well as updates to existing applications. Rancher Continuous Delivery can be configured to apply the changes immediately, or only after the new software bundle version has completed an established approval process.
 
 ### On-Demand Application Delivery and Management
 
-While some applications, like those supporting a point-of-purchase unit are best deployed and run automatically, certain applications are best deployed and run only when needed. These would include applications that have high resource consumption or would benefit from a reduced attack surface area. For this reason SUSE Rancher allows deploying, running, and removing applications on-demand from its application catalog. After all, it's hard to imagine a smaller attack surface than an application that isn't currently installed. This ability is, of course, restricted by Rancher centralized Role Based Access Control.
+While some applications, like those supporting a point-of-purchase unit are best deployed and run automatically, certain applications are best deployed and run only when needed. These would include applications that have high resource consumption or would benefit from a reduced attack surface area. For this reason SUSE Rancher allows deploying, running, and removing applications on-demand from its application catalog. This shrinks the application's attack surface to zero while not in use, and thus not installed. The ability to deploy applications on-demand is, of course, restricted by the custom set of applications configured in the local Rancher server's application-catalog, as well as the policies configured in the centralized Role Based Access Control.
 
 
 ### Kubernetes Level Audit Logging
 
-One of the most valuable tool Kubernetes provides as an application platform is the ability to constantly monitor and log all requests made to the Kubernetes cluster. This information is invaluable in discovering unexpected queries and changes. As well, continuously sending these logs to an on-site, central logging service, makes it quicker to detect intrusions, and much harder for intruders to cover their tracks.
+One of the most valuable tool Kubernetes provides as an application platform is the ability to constantly monitor and log all requests made to the Kubernetes cluster. This information is invaluable in discovering unexpected queries and changes. As well, continuously sending these logs to an on-site, central logging service, makes it quicker to detect intrusions, and much harder for intruders to cover their tracks. SUSE Rancher can ensure these configurations are applied and maintained automatically. 
 
+### Corporate Security Policy Management
+
+At a high level, every corporation is setting security standards for their IT infrastructure. In the Kubernetes space these can include requirements such as only using container images that reference a SHA256 hash, applying appropriate labels and annotations, enforcing naming conventions, and only creating certain resources during specific times of the day. SUSE Rancher leverages OPA Gatekeeper to automatically apply and maintain these configurations on every K3s cluster in the retail location. Any violations of these policies can trigger an alert to the store management as well as the corporate security teams.
 
 ### Notes
 
@@ -63,11 +68,11 @@ SUSE Rancher provides the following capabilities for a Retail Point-of-Service u
 * *DONE* Deploy, update, and remove Kubernetes applications on-demand  
 ** *DONE* All container images are secured with a SHA256 hash  
 * *DONE* Manage RBAC consistently across Kubernetes clusters  
-* Enable the application of corporate security policies across clusters based on their function in the environment  
-* Change the applications on a cluster by changing the labels applied to it
-** Useful when changing a POS system's location or function. I.e. Moving a management station into a Point-of-Purchase location to replace unusable systems
-* Automatically configure audit logging and shipping configurations
-** Ensures any intrusions cannot be covered up by the intruder
+* *DONE* Enable the application of corporate security policies across clusters based on their function in the environment  
+* *DONE* Change the applications on a cluster by changing the labels applied to it
+** *DONE* Useful when changing a POS system's location or function. I.e. Moving a management station into a Point-of-Purchase location to replace unusable systems
+* *DONE* Automatically configure audit logging and shipping configurations
+** *DONE* Ensures any intrusions cannot be covered up by the intruder
 
 Retail environment particulars:
 
