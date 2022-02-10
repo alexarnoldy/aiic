@@ -58,8 +58,11 @@ One of the most valuable tool Kubernetes provides as an application platform is 
 ### Notes
 
 SUSE Rancher provides the following capabilities for a Retail Point-of-Service use case:  
-[line-through]#* Deploy, update, and remove Kubernetes applications automatically#
+
+* Deploy, update, and remove Kubernetes applications automatically
+
 * Deploy, update, and remove Kubernetes applications on-demand  
+
 ** All container images are secured with a SHA256 hash  
 * Manage RBAC consistently across Kubernetes clusters  
 * Enable the application of corporate security policies across clusters based on their function in the environment  
