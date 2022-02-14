@@ -27,11 +27,11 @@ That SLEMicro runs as an immutable O/S in terms of installed binaries, and K3s i
 
 ### Architecture
 
-Upon power up/boot up, the function of the Point-of-Service unit, i.e. point-of-purchase-lane-4 or general-manager-station can be established by applying cluster labels to the single-node K3s cluster on the unit. SUSE Rancher uses the labels to populate the unit with the applications and settings it applicable to its current function. Troubleshooting problematic units is no more difficult than replacing with a spare unit.
+Upon power up/boot up, the identity of the Point-of-Service unit, i.e. point-of-purchase-lane-4 or general-manager-station can be established by applying cluster labels to the single-node K3s cluster on the unit. SUSE Rancher uses the labels to populate the unit with the applications and settings it applicable to its current function. Troubleshooting problematic units is no more difficult than replacing with a spare unit.
 
 Effective security is applied consistently across each layer of the architecture. SUSE Rancher supports this perfectly by allows Role Based Access Control programmatically across all Points-of-Service units. This can include assuring that only management staff can access business critical units and applications.
 
-Securing the software supply chain is one of the most important, and least understood way to protect an enterprise from attack. SUSE Rancher supports the both in the headquarters-based development, QA, and testing efforts; as well as at the on-site retail location.
+Securing the software supply chain is one of the most important, and least understood elements to protect against cyber-attack. SUSE Rancher supports the both in the headquarters-based development, QA, and testing efforts; as well as at the on-site retail location.
 
 SUSE Rancher maintains secure application deployment in several ways. Firstly, it ensures all on-site K3s clusters only pull images from the on-site, private registry. As well, it ensures the K3s clusters validate the SHA256 hash of every container image of the applications they run. Finally, SUSE Rancher will pull the container image hash values from the secure, corporate GitHub compatible repository, which is separate from the upstream container image registry.
 
