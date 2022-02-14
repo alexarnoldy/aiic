@@ -1,0 +1,35 @@
+## Embedded SUSE Rancher for Retail Point-of-Service
+
+
+### The Challenge
+
+*Retail locations are especially vulnerable to cyber-attack* because they are highly visible and rarely have the same level of high-cost network protection as does a datacenter or cloud-provider. 
+
+*The lack of well trained IT staff on-site at a retail location* means an attacker has a better chance of entering, acting and moving laterally without detection.
+
+*On-site software stacks are more advanced and complex than ever*, but retailers can't afford to manually manage the software at each location. Nor can they forgo updating applications with important security and bug fixes.
+
+*Maintaining an "always on" network connection* from a retail location to corporate headquarters creates a massive attack surface area.
+
+*Meaninfully and consistently securing hundreds or thousands of retail locations* often requires many, specialized tools, and experts to manage them.
+
+### Architectural Overview
+
+Traditional methods for building out retail locations borrow heavily from simple Remote Office / Branch Office (ROBO) practices, often offering nothing more advanced than using virtual machines to improve compute density. Unfortunately, those antiquated techniques falls painfully short in terms of security, ease of management, and scalability. The most advanced concept those practices offer is based on using virtual machines to
+
+This design was specifically created for providers of IT software and hardware for use in retail outlets with no on-site IT support. It emphasizes a high level of security, ease of management for remote IT management staff, and ease of use for on-site staff. One of the most powerful features of this design is that it purposefully associates the identity/function of each Point-of-Service unit with the Kubernetes application layer and disaggregates it from the operating system. This creates significantly improved security, flexibilty, and manageability.
+
+The two primary components of the design are a highly available installation of SUSE Rancher and Point-of-Service units that are pre-installed with a hardened and standardized image of SLE Micro and K3s installed as a single-node cluster.
+
+SUSE Rancher server provides a stable platform for orchestrating the Kubernetes-native applications the Point-of-Service units, allowing management of applications remotely, and at scale.  
+
+SUSE Rancher's architecture is designed specifically for environments where both upstream and downstream communications are interrupted regularly. This allows the retail location to keep it's production network disconnected from the Internet for long periods of time. SUSE Rancher has no problem syncing up needed data in short and random windows of communication with its corporate-maintained, upstream resources.
+
+SLE Micro is an ultra-reliable, lightweight operating system purpose built for containerized and virtualized workloads. It leverages the enterprise hardened security and compliance components of SUSE Linux Enterprise and merges them with a modern, immutable, developer-friendly OS platform.
+
+SLE Micro's immutable design ensures the OS is not altered during runtime and runs reliably every single time. Further, it leverages enterprise-hardened SLE common code base to provide enterprise-grade quality and reliability.
+
+K3s is complete, CNCF certified Kubernetes distribution packaged as a single < 40MB binary that reduces the dependencies and steps needed to install, run and auto-update a production Kubernetes cluster. K3s run on all x86_64 platforms but is also optimized for ARM64 and ARMv7.
+
+Utilizing a standardized O/S plus Kubernetes image across all Point-of-Service units significantly reduces the maintenance required for the lion's share of the software stack. This design also leaves the uniqueness of each unit (i.e. point-of-purchase-lane-2 vs. point-of-purchase-lane-4 vs. general-manager-station) in the hands of the Kubernetes-native application layer. This means that in the dynamic environment of a retail location, all Point-of-Service units are fully interchangeable, highly secure, flexible, and easy to manage.
+
