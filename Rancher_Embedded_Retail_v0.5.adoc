@@ -13,19 +13,19 @@
 
 ### Architectural Overview
 
-This design was specifically created for providers of IT software and hardware designed for retail outlets with no on-site IT support. It emphasizes a high level of security, ease of management for remote IT management staff, and ease of use for on-site staff. 
+This design was specifically created for providers of IT software and hardware for use in retail outlets with no on-site IT support. It emphasizes a high level of security, ease of management for remote IT management staff, and ease of use for on-site staff. 
 
-The two primary components of the installation are a highly available installation of SUSE Rancher and the Point-of-Service units that are pre-installed with a hardened and standardized image of SLE Micro with K3s configured as a single-node cluster.
+The two primary components of the design are a highly available installation of SUSE Rancher and Point-of-Service units that are pre-installed with a hardened and standardized image of SLE Micro and K3s installed as a single-node cluster.
 
-SUSE Rancher server provides the stable platform for orchestrating the Kubernetes-native applications the Point-of-Service units. Rancher provides the tools required to for managing applications remotely, and at scale.  
+SUSE Rancher server provides a stable platform for orchestrating the Kubernetes-native applications the Point-of-Service units, allowing management of applications remotely, and at scale.  
 
 SUSE Rancher's architecture is designed specifically for environments where both upstream and downstream communications are interrupted regularly. This allows the retail location to keep it's production network disconnected from the Internet for long periods of time. SUSE Rancher has no problem syncing up needed data in short and random windows of communication with its corporate-maintained, upstream resources.
 
 SLE Micro is an ultra-reliable, lightweight operating system purpose built for containerized and virtualized workloads. It leverages the enterprise hardened security and compliance components of SUSE Linux Enterprise and merges them with a modern, immutable, developer-friendly OS platform.
 
-SLE Micro's immutable design ensures OS is not altered during runtime and runs reliably every single time. Further, it leverages enterprise-hardened SLE common code base to provide enterprise-grade quality and reliability.
+SLE Micro's immutable design ensures the OS is not altered during runtime and runs reliably every single time. Further, it leverages enterprise-hardened SLE common code base to provide enterprise-grade quality and reliability.
 
 K3s is complete, CNCF certified Kubernetes distribution packaged as a single < 40MB binary that reduces the dependencies and steps needed to install, run and auto-update a production Kubernetes cluster. K3s run on all x86_64 platforms but is also optimized for ARM64 and ARMv7.
 
-Utilizing a standardized O/S plus Kubernetes image across all Point-of-Service units significantly reduces the maintenance required for the lion's share of the software stack. This design also leaves the uniqueness of each unit in the hands of the Kubernetes-native application layer. In the dynamic environment of a retail location, these units are fully interchangeable and highly secure, flexible, and easy to manage.
+Utilizing a standardized O/S plus Kubernetes image across all Point-of-Service units significantly reduces the maintenance required for the lion's share of the software stack. This design also leaves the uniqueness of each unit (i.e. point-of-purchase-lane-2 vs. point-of-purchase-lane-4 vs. general-manager-station) in the hands of the Kubernetes-native application layer. This means that in the dynamic environment of a retail location, all Point-of-Service units are fully interchangeable, highly secure, flexible, and easy to manage.
 
