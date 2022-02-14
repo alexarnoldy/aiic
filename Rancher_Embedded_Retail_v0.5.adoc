@@ -1,0 +1,30 @@
+## Embedded SUSE Rancher for Retail Point-of-Service
+
+
+### The Challenge
+
+*Retail locations are especially vulnerable to cyber-attack* because they are highly visible and rarely have the same level of high-cost network protection as does a datacenter or cloud-provider. 
+
+*The lack of well trained IT staff on-site at a retail location* means an attacker has a better chance of entering, acting and moving laterally without detection.
+
+*On-site software stacks are more advanced and complex than ever*, but retailers can't afford to manually manage the software at each location. Nor can they forgo updating applications with important security and bug fixes.
+
+*Maintaining an "always on" network connection* from a retail location to corporate headquarters creates a massive attack surface area.
+
+### Architectural Overview
+
+This design was specifically created for providers of IT software and hardware designed for retail outlets with no on-site IT support. It emphasizes a high level of security, ease of management for remote IT management staff, and ease of use for on-site staff. 
+
+The two primary components of the installation are a highly available installation of SUSE Rancher and the Point-of-Service units that are pre-installed with a hardened and standardized image of SLE Micro with K3s configured as a single-node cluster.
+
+SUSE Rancher server provides the stable platform for orchestrating the Kubernetes-native applications the Point-of-Service units. Rancher provides the tools required to for managing applications remotely, and at scale.  
+
+SLE Micro is an ultra-reliable, lightweight operating system purpose built for containerized and virtualized workloads. It leverages the enterprise hardened security and compliance components of SUSE Linux Enterprise and merges them with a modern, immutable, developer-friendly OS platform.
+
+SLE Micro's immutable design ensures OS is not altered during runtime and runs reliably every single time. Further, it leverages enterprise-hardened SLE common code base to provide enterprise-grade quality and reliability.
+
+K3s is complete, CNCF certified Kubernetes distribution packaged as a single < 40MB binary that reduces the dependencies and steps needed to install, run and auto-update a production Kubernetes cluster. K3s run on all x86_64 platforms but is also optimized for ARM64 and ARMv7.
+
+The unique combination of SUSE Rancher, SLE Micro, and K3s achieves 
+
+level of software stability such that only the most basic skills of plugging in cables, powering on, and logging in are usually required for retail location staff to keep their store running at peak efficiency.
