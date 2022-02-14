@@ -15,7 +15,9 @@
 
 ### Architectural Overview
 
-This design was specifically created for providers of IT software and hardware for use in retail outlets with no on-site IT support. It emphasizes a high level of security, ease of management for remote IT management staff, and ease of use for on-site staff. 
+Traditional methods for building out retail locations borrow heavily from simple Remote Office / Branch Office (ROBO) practices, often offering nothing more advanced than using virtual machines to improve compute density. Unfortunately, those antiquated techniques falls painfully short in terms of security, ease of management, and scalability. The most advanced concept those practices offer is based on using virtual machines to
+
+This design was specifically created for providers of IT software and hardware for use in retail outlets with no on-site IT support. It emphasizes a high level of security, ease of management for remote IT management staff, and ease of use for on-site staff. One of the most powerful features of this design is that it purposefully associates the identity/function of each Point-of-Service unit with the Kubernetes application layer and disaggregates it from the operating system. This creates significantly improved security, flexibilty, and manageability.
 
 The two primary components of the design are a highly available installation of SUSE Rancher and Point-of-Service units that are pre-installed with a hardened and standardized image of SLE Micro and K3s installed as a single-node cluster.
 
