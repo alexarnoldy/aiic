@@ -11,6 +11,8 @@
 
 *Maintaining an "always on" network connection* from a retail location to corporate headquarters creates a massive attack surface area.
 
+*Meaninfully and consistently securing hundreds or thousands of retail locations* often requires many, specialized tools, and experts to manage them.
+
 ### Architectural Overview
 
 This design was specifically created for providers of IT software and hardware for use in retail outlets with no on-site IT support. It emphasizes a high level of security, ease of management for remote IT management staff, and ease of use for on-site staff. 
