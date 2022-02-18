@@ -11,13 +11,13 @@
 
 *Maintaining an "always on" network connection* from a retail location to corporate headquarters creates a massive attack surface area.
 
-*Meaninfully and consistently securing hundreds or thousands of retail locations* often requires many, specialized tools, and experts to manage them.
+*Meaningfully and consistently securing hundreds or thousands of retail locations* often requires many, specialized tools, and experts to manage them.
 
 ### Architectural Overview
 
 Traditional methods for building out retail locations borrow heavily from simple Remote Office / Branch Office (ROBO) practices, often offering nothing more advanced than using virtual machines to improve compute density. Unfortunately, those antiquated techniques falls painfully short in terms of security, ease of management, and scalability. The most advanced concept those practices offer is based on using virtual machines to
 
-This design was specifically created for providers of IT software and hardware for use in retail outlets with no on-site IT support. It emphasizes a high level of security, ease of management for remote IT management staff, and ease of use for on-site staff. One of the most powerful features of this design is that it purposefully associates the identity/function of each Point-of-Service unit with the Kubernetes application layer and disaggregates it from the operating system. This creates significantly improved security, flexibilty, and manageability.
+This design was specifically created for providers of IT software and hardware for use in retail outlets with no on-site IT support. It emphasizes a high level of security, ease of management for remote IT management staff, and ease of use for on-site staff. One of the most powerful features of this design is that it purposefully associates the identity/function of each Point-of-Service unit with the Kubernetes application layer and disaggregates it from the operating system. This creates significantly improved security, flexibility, and manageability.
 
 The two primary components of the design are a highly available installation of SUSE Rancher and Point-of-Service units that are pre-installed with a hardened and standardized image of SLE Micro and K3s installed as a single-node cluster.
 
@@ -31,5 +31,7 @@ SLE Micro's immutable design ensures the OS is not altered during runtime and ru
 
 K3s is complete, CNCF certified Kubernetes distribution packaged as a single < 40MB binary that reduces the dependencies and steps needed to install, run and auto-update a production Kubernetes cluster. K3s run on all x86_64 platforms but is also optimized for ARM64 and ARMv7.
 
-Utilizing a standardized O/S plus Kubernetes image across all Point-of-Service units significantly reduces the maintenance required for the lion's share of the software stack. This design also leaves the uniqueness of each unit (i.e. point-of-purchase-lane-2 vs. point-of-purchase-lane-4 vs. general-manager-station) in the hands of the Kubernetes-native application layer. This means that in the dynamic environment of a retail location, all Point-of-Service units are fully interchangeable, highly secure, flexible, and easy to manage.
+Utilizing a standardized O/S plus Kubernetes image across all Point-of-Service units significantly reduces the maintenance required for most of the software stack. This design also leaves the uniqueness of each unit (i.e. point-of-purchase-lane-2 vs. point-of-purchase-lane-4 vs. general-manager-station) in the hands of the Kubernetes-native application layer. This means that in the dynamic environment of a retail location, all Point-of-Service units are fully interchangeable, highly secure, flexible, and easy to manage.
+
+### The Solution
 
