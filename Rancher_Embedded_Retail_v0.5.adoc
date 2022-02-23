@@ -45,6 +45,8 @@ SUSE K3s is not only the world's lightest Kubernetes, it is also highly secure r
 
 SUSE Rancher provides a powerful platform for deploying and maintaining any Kubernetes-native security software and configurations. The software and configurations are managed in centralized, secured repositories so managing the software and configurations for a thousand retail locations is as easy as managing a single location.
 
+As an added layer of protection, SUSE Rancher ensures consistent Role Based Access Control (RBAC) policies are applied to every Point-of-Service unit.
+
 * *SUSE Rancher can orchestrate deploying, updating, and deleting* all of the software that runs a retail location. Specific labels are applied to each Point-of-Service unit, which signals SUSE Rancher what software should be deployed to the unit's single-node K3s cluster. While remote IT staff manage the software repositories, SUSE Rancher ensures applications get deployed and updated on the appropriate Point-of-Service units. 
 
 Probably the most overlooked security hole in the software supply chain is the timely disposal of applications and data after a unit has been moved or replaced. SUSE Rancher covers this aspect seamlessly. By removing the cluster labels, a unit no longer qualifies for the applications and thus SUSE Rancher ensures they are deleted from the unit.
