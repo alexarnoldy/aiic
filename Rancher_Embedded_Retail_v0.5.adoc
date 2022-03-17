@@ -11,7 +11,7 @@
 
 * *On-site software stacks are more advanced and complex than ever*, but retailers can't afford to manually manage the software at each location. Nor can they forgo updating applications with important security and bug fixes.
 
-* *Maintaining an "always on" network connection* from a retail location to corporate headquarters creates a massive attack surface area.
+* *Requiring an "always on" network connection* from retail locations to a corporate headquarters creates a massive attack surface area and can leave a retail location seriously inhibited during network connection interruptions.
 
 * *Meaningfully and consistently securing hundreds or thousands of retail locations* often requires many, specialized tools, and an army of experts to manage them.
 
@@ -53,7 +53,7 @@ Utilizing a standardized O/S plus Kubernetes image across all Point-of-Service u
 
 ** While some applications, like those supporting a Point-of-Purchase units are best deployed and run automatically, certain applications are best deployed and run only when needed. These would include applications that have high resource consumption or would benefit from a reduced attack surface area. SUSE Rancher also enables deploying, running, and removing applications on-demand from its private application catalog. This shrinks the application's attack surface to zero while not in use/not installed. The ability to deploy applications on-demand is, of course, restricted by the custom set of applications configured in the local Rancher server's private application catalog, as well as the policies configured in Rancher's centralized Role Based Access Control.
 
-* *SUSE Rancher's architecture is designed specifically for environments* where both upstream and downstream communications are interrupted regularly. This allows the retail location to keep it's production network disconnected from the Internet for long periods of time. SUSE Rancher has no problem syncing up needed data in short and random windows of communication with its corporate-maintained, upstream resources.
+* *SUSE Rancher's architecture is designed specifically for environments* where both upstream and downstream communications might be interrupted regularly. This can allow, if needed, the retail location to keep it's production network disconnected from the Internet for long periods of time. It can also ensure that a the applications running the retail location continue to operate in the event of network interruptions. SUSE Rancher has no problem syncing up needed data in short and/or random windows of communication with its corporate-maintained, upstream resources. The architecture even allows the same level of resilience with SUSE Rancher's downstream clusters.
 
 ** SUSE Rancher can proxy communications with the K3s clusters on all of the Point-of-Service units, allowing remote IT staff to easily troubleshoot any unit in the retail location from a central location. This also ensures that RBAC policies are enforced for all units, all of the time.
 
