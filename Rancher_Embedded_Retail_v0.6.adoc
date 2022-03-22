@@ -3,7 +3,7 @@
 
 ### The Challenge
 
-* *Providers of retail hardware and software solutions are facing challenges on multiple fronts.* These include retailers who want to extend the life of their legacy platforms, those who are exploring portable platforms, and those who are demanding more capabilities from in-store platforms. 
+* *Providers of retail hardware and software solutions are facing challenges on multiple fronts.* These include retailers who want to extend the life of their legacy systems, those who are exploring extensible and portable platforms, and those who are demanding more capabilities from in-store platforms. 
 
 * *There is increased demand from global retailers to drive greater capabilities* to retail locations. In many cases these are new, cutting-edge capabilities such as dynamic, enhanced shopping experiences and consumer analytics. In other cases retailers are looking to move applications to the retail locations that have historically been run centrally by corporate headquarters.
 
@@ -15,19 +15,27 @@
 
 * *On-site software stacks are more advanced and complex than ever*, but retailers can't afford to manually manage the software at each location. Nor can they forgo updating applications with important security and bug fixes.
 
+<!-- I haven't come across always on connections in retail [mak3r] -->
 * *Requiring an "always on" network connection* from retail locations to a corporate headquarters creates a massive attack surface area and can leave a retail location seriously inhibited during network connection interruptions.
 
+<!--
+* *Remote location system improvements may create new risks* retail locations may have increased productivity and improved solutions by eliminating sneakernet. This means being wired at least periodically to a data center and thereby increasing attack surface.
+-->
+
+<!-- I'm not sure this is true. I think what you are getting at is that there are challenges with both scale and security in modernizing the retail stack -->
 * *Meaningfully and consistently securing hundreds or thousands of retail locations* often requires many, specialized tools, and an army of experts to manage them.
 
 ### Architectural Overview
 
 Traditional methods for building out retail locations borrow heavily from simple Remote Office / Branch Office (ROBO) practices, often offering nothing more advanced than using virtual machines to improve compute density. Unfortunately, those antiquated techniques fall painfully short in terms of security, manageability, and scalability. 
 
-This modern design for retail locations was specifically created for companies that provider IT software and hardware for use in retail outlets with no on-site IT support. It emphasizes a high level of security, ease of management for remote IT management staff, and ease of use for on-site staff. One of the most powerful features of this design is that it purposefully associates the identity/function of each Point-of-Service unit with the Kubernetes application layer and disaggregates it from the operating system. This creates significantly improved security, flexibility, and manageability.
+<!-- Be careful here. Kubernetes isn't inherently more secure and if misconfigured can be considered less secure than a user space on linux. Kubernetes enables us to use RBAC and namespaces to isolate and sandbox applications from the underlying system and other runtimes within the cluster itself. -->
+This modern design for retail locations was specifically created for companies that provider IT software and hardware for use in retail outlets with no on-site IT support. It emphasizes a high level of security, ease of management for remote IT management staff, and ease of use for on-site staff. One of the most powerful features of this design is that it purposefully associates the identity/function of each Point-of-Service unit with the Kubernetes application layer and disaggregates it from the operating system. This creates significantly improved security, flexibility, and manageability. 
 
 The two primary components of the design are a highly available installation of SUSE Rancher and Point-of-Service units that are pre-installed with a hardened and standardized image of SLE Micro and K3s installed as a single-node cluster.
 
-SUSE Rancher server provides a stable platform for orchestrating the Kubernetes-native applications the Point-of-Service units, allowing management of applications remotely, and at scale.  
+<!-- is there something broader than PoS units? This seems a narrow scope -->
+SUSE Rancher management server provides a stable platform for orchestrating cloud-native applications to Point-of-Service units, allowing management of applications remotely, and at scale.  
 
 SUSE Rancher's architecture is designed specifically for environments where both upstream and downstream communications are interrupted regularly. This allows the retail location to keep it's production network disconnected from the Internet for long periods of time. SUSE Rancher has no problem syncing up needed data in short and random windows of communication with its corporate-maintained, upstream resources.
 
@@ -35,9 +43,12 @@ SLE Micro is an ultra-reliable, lightweight operating system purpose built for c
 
 SLE Micro's immutable design ensures the OS is not altered during runtime and runs reliably every single time. Further, it leverages enterprise-hardened SLE common code base to provide enterprise-grade quality and reliability.
 
-K3s is a complete, CNCF certified Kubernetes distribution packaged as a single < 40MB binary that reduces the dependencies and steps needed to install, run and auto-update a production Kubernetes cluster. K3s run on all x86_64 platforms but is also optimized for ARM64 and ARMv7.
+<!-- 40MB was the compressed binary. I don't think that's the case today. At runtime, the agent and server together use about 500MB -->
+K3s is a complete, CNCF certified Kubernetes distribution packaged as a single binary that reduces the dependencies and steps needed to install, run and auto-update a production Kubernetes cluster. K3s runs on all x86_64 and aarch64 platforms but is also optimized for ARMv7.
 
-Utilizing a standardized O/S plus Kubernetes image across all Point-of-Service units significantly reduces the maintenance required for most of the software stack. This design also leaves the uniqueness of each unit (i.e. point-of-purchase-lane-2 vs. point-of-purchase-lane-4 vs. general-manager-station) in the hands of the Kubernetes-native application layer. This means that in the dynamic environment of a retail location, all Point-of-Service units are fully interchangeable, highly secure, flexible, and easy to manage.
+Utilizing a standardized O/S plus Kubernetes image across all Point-of-Service units significantly reduces the maintenance required for the entire application stack. This design also leaves the uniqueness of each unit (i.e. point-of-purchase-lane-2 vs. point-of-purchase-lane-4 vs. general-manager-station) in the hands of the Kubernetes-native application layer. This means that in the dynamic environment of a retail location, all Point-of-Service units are fully interchangeable, highly secure, flexible, and easy to deploy, manage and update remotely or in-store.
+
+<!-- Fundamentally the architecture is a store unit that hosts and OS and container orchestration as a foundation to all new and existing cloud-native appliacations. Each in store system is configured to register itself with a system in the retail enterprise datacenter or cloud where it checks in for software updates and can be remotely managed giving visibillity in the live running systems in-store when needed. SUSE professional services can help build custom solutions around these basic building blocks to enable retail enterprises to evolve into modern systems like those used in the cloud and highly optimized data centers around the world. -->
 
 ### The Solution
 
@@ -57,6 +68,8 @@ Utilizing a standardized O/S plus Kubernetes image across all Point-of-Service u
 
 * *SUSE Rancher orchestrates deploying, updating, and even removing* all of the software that runs a retail location. Specific labels are applied to each Point-of-Service unit, which signals SUSE Rancher what software should be deployed to the unit's single-node K3s cluster. While remote IT staff manage the software repositories, SUSE Rancher ensures applications get deployed and updated on the appropriate Point-of-Service units. 
 
+** The architecture of the SUSE Rancher solution lends itself to developing custom turnkey solutions for the Point-of-Service units which can easily be disconnected and replaced as needed without impacting the entire store. In many cases there will be little or no downtime at all for many standard outage cases. Work with our services team to architect the right solution for your needs.
+
 ** Probably the most overlooked security hole in the software supply chain is the timely disposal of applications and data after a unit has been moved or replaced. SUSE Rancher covers this aspect seamlessly. Upon removing the cluster labels from a unit, it would no longer qualify for any applications and thus all applications and non-persistent data are immediately removed from the unit.
 
 ** While some applications, like those supporting a Point-of-Purchase units are best deployed and run automatically, certain applications are best deployed and run only when needed. These would include applications that have high resource consumption or would benefit from a reduced attack surface area. SUSE Rancher also enables deploying, running, and removing applications on-demand from its private application catalog. This shrinks the application's attack surface to zero while not in use/not installed. The ability to deploy applications on-demand is, of course, restricted by the custom set of applications configured in the local Rancher server's private application catalog, as well as the policies configured in Rancher's centralized Role Based Access Control.
@@ -69,4 +82,4 @@ Utilizing a standardized O/S plus Kubernetes image across all Point-of-Service u
 
 ** SUSE Rancher can guarantee that security software like Open Policy Agent Gatekeeper are deployed on every K3s cluster, on every Point-of-Service unit, in every retail location. Using cluster labels, a definition unique to SUSE Rancher, it can also be assured that specific security policies are enforced on every Point-of-Service unit, based on its current function. 
 
-** If a unit is moved for example, from a Point-of-Purchase function, to a receiving-and-inventory function; SUSE Rancher automatically removes all of the previous applications, security software, and policies and applies new resources to fit unit's new tasks and security posture. Performing the same switch based on antiquated bare-metal or virtualization deployment technologies would require engaging remote IT staff to perform complex and error prone redeployments of operating systems and applications.
+** If a unit is moved for example, from a Point-of-Purchase function, to a receiving-and-inventory function; SUSE Rancher can be used to clean up the old system and apply new resources to fit unit's new tasks and security posture. Performing the same switch based on antiquated bare-metal or virtualization deployment technologies would require engaging remote IT staff to perform complex and error prone redeployments of operating systems and applications.
