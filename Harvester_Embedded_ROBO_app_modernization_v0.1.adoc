@@ -1,21 +1,34 @@
-## Embedded SUSE Harvester for Remote Office / Branch Office and Application Modernization
+## Embedded SUSE Harvester Application Modernization
 
-////
 ### The Challenge
 
-* *Retail locations are especially vulnerable to cyber-attack* because they are highly visible and rarely have the same level of high-cost network protection as does a datacenter or cloud-provider. 
+* *Most application and integrated solutions providers have legacy, monolithic applications* that currently provide significant revenue for their business.
+
+* *Most virtualization and Kubernetes platforms don't allow for modernizing* monolithic applications into microservices through a safe, interative design process.
+
+* *Legacy virtualization platforms are dependent on technology that is more than two decades old.* 
 
 ////
+* *Retail locations are especially vulnerable to cyber-attack* because they are highly visible and rarely have the same level of high-cost network protection as does a datacenter or cloud-provider. 
+
 * *The lack of well trained IT staff on-site at a retail location* means an attacker has a better chance of entering, acting and moving laterally without detection.
-////
 
 * *On-site software stacks are more advanced and complex than ever*, but retailers can't afford to manually manage the software at each location. Nor can they forgo updating applications with important security and bug fixes.
 
 * *Requiring an "always on" network connection* from retail locations to a corporate headquarters creates a massive attack surface area and can leave a retail location seriously inhibited during network connection interruptions.
 
 * *Meaningfully and consistently securing hundreds or thousands of retail locations* often requires many, specialized tools, and an army of experts to manage them.
+////
 
 ### Architectural Overview
+
+Many industries are finding new value in pushing more powerful compute platforms further out to edge locations. The ability to process data closest to where the data is generated reduces costs, lowers business process latency, and significantly increases the ability to react to changing conditions.
+
+One of the biggest challenges industries are facing in taking full advantage of doing business at the edge is modernizing their existing applications to meet the flexibility, reliability, and availability needed to run large numbers of edge locations.
+
+This design was created specifically to address the biggest obstacle these modernization efforts face: Being able to continue to run the business through the iterative process of modernization. The SUSE Harvester platform is a Kubernetes native virtualization platform. The primary difference between Harvester and legacy hypervisors is that Harvester runs virtual machines in a Kubernetes context. This allows application developers to run their virtual machines based on the same kinds of Kubernetes resources, such as namespaces, network policies, and RBAC policies as they run the containerized portions of their applications. 
+
+Running virtual machines in the same context as containerized workloads allows for an easy path to modernizing applications, one step at a time, rather than completely refactoring the application in a single effort.
 
 Traditional methods for building out retail locations borrow heavily from simple Remote Office / Branch Office (ROBO) practices, often offering nothing more advanced than using virtual machines to improve compute density. Unfortunately, those antiquated techniques fall painfully short in terms of security, manageability, and scalability. 
 
