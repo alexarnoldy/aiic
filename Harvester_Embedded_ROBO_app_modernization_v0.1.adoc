@@ -22,9 +22,15 @@
 
 ### Architectural Overview
 
-This design is focuses on leveraging SUSE Harvester as as Kubernetes based, type 1 hypervisor to run virtual machines for the portions of an application stack that are not easily, or currently run as containerized services. Portions of the application stack that are containerized run in one or more K3s Kubernetes clusters that runs on virtual machines, also on Harvester. 
+This design is leverages SUSE Harvester as a Kubernetes based, type 1 hypervisor to run a legacy application in a hybrid, virtualized plus containerized, environment. SUSE Harvester is a fully Hyper-Converged Infrastructure hypervisor, so it provides its workloads virtualization, storage, and network without extra investment.
 
-Harvester and the K3s clusters are all managed by a centralized SUSE Rancher server. 
+In this hybrid approach, the portions of an application stack that are not currently containerized run inside virtual machines. Two types of virtual machines are supported, persistent and immutable. Immutable virtual machines are designed to run portions of an application stack that do not need to persist data locally, but cannot cannot be easily containerized. Leveraging immutable virtual machines can be used as an intermediate step in modernizing portions of an existing application stack. They can be operated in a mode similar to Kubernetes pods (i.e. created and destroyed at will), but the services running inside them retain the legacy application architecture.
+
+The portions of the application stack that have been containerized run on a K3s Kubernetes cluster, that also runs in virtual machines on Harvester. 
+
+The journey towards mordernizing the application is made further easier with SUSE's Base Container Image (BCI), which provides a supported, flexible container image to build from. SUSE's BCI even includes a version that allows applications to interface directly with systemd.
+
+One of the key differentiators of SUSE Harvester and other Hyper-Converged Infrastructure solutions is that Harvester, its virtual machines, as well as the K3s Kubernetes clusters can be fully managed by a single SUSE Rancher server. This allows an application development team to apply principles of automation uniformly by calling to the Rancher server API for all infrastructure needs.
 
 
 Many industries are finding new value in pushing more powerful compute platforms further out to edge locations. The ability to process data closest to where the data is generated reduces costs, lowers business process latency, and significantly increases the ability to react to changing conditions.
