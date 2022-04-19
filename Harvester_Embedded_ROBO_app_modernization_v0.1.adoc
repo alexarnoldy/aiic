@@ -32,7 +32,11 @@ The journey towards mordernizing the application is made further easier with SUS
 
 One of the key differentiators of SUSE Harvester and other Hyper-Converged Infrastructure solutions is that Harvester, its virtual machines, as well as the K3s Kubernetes clusters can be fully managed by a single SUSE Rancher server. This allows an application development team to apply principles of automation uniformly by calling to the Rancher server API for all infrastructure needs.
 
+For the highest level of reliability the design leverages three virtualization focused servers. The CPU, memory, storage, and network capacity for the servers can be tailored to the needs of the workload. The minimum recommended per node configuration is eight CPU cores, 32 GB of RAM, 120GB of SSD or NVMe storage, and 1Gb/s network. This configuration works well where the workload is relatively small and predictable. Increasing each node's capacity to 16 CPU cores, 64GB of RAM, 500GB of SSD/NVMe storage and a 25Gb/s network significantly increases the solution's ability to handle heavier and variable workloads.
 
+Three nodes can sometimes be a challenge for remote environments, however this gives the solution the maximum availability and reliability, plus allows for fully lights-out management. The solution can also be used in a two node configuration, but with a reduction in availability and significant reduction in reliability. It would also require more on-site technical assistance to recover from major server failures.
+
+////
 Many industries are finding new value in pushing more powerful compute platforms further out to edge locations. The ability to process data closest to where the data is generated reduces costs, lowers business process latency, and significantly increases the ability to react to changing conditions.
 
 One of the biggest challenges industries are facing in taking full advantage of doing business at the edge is modernizing their existing applications to meet the flexibility, reliability, and availability needed to run large numbers of edge locations.
