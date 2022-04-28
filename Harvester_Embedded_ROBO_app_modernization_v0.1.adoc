@@ -8,66 +8,35 @@
 
 * *Legacy virtualization platforms are dependent on technology that is more than two decades old.* 
 
-////
-* *Retail locations are especially vulnerable to cyber-attack* because they are highly visible and rarely have the same level of high-cost network protection as does a datacenter or cloud-provider. 
-
-* *The lack of well trained IT staff on-site at a retail location* means an attacker has a better chance of entering, acting and moving laterally without detection.
-
-* *On-site software stacks are more advanced and complex than ever*, but retailers can't afford to manually manage the software at each location. Nor can they forgo updating applications with important security and bug fixes.
-
-* *Requiring an "always on" network connection* from retail locations to a corporate headquarters creates a massive attack surface area and can leave a retail location seriously inhibited during network connection interruptions.
-
-* *Meaningfully and consistently securing hundreds or thousands of retail locations* often requires many, specialized tools, and an army of experts to manage them.
-////
 
 ### Architectural Overview
 
-This design is leverages many SUSE technologies. These include SUSE Rancher as a central point of management, automation, and administration for all virtualization and containerization platforms; SUSE Harvester as a Kubernetes based, Hyper-Converged Infrastructure, type 1 hypervisor; SUSE Linux Enterprise 15 and SLE Micro as the virtual machine operating systems; K3s as the Kubernetes distribution to run containerized workloads; and SUSE Base Container Image as the Enterprise ready, fully supportable application platform.
+This design leverages many SUSE technologies. These include: 
+* SUSE Rancher as a central point of management, automation, and administration for all virtualization and containerization platforms 
+* SUSE Harvester as a Kubernetes based, Hyper-Converged Infrastructure, type 1 hypervisor 
+* SUSE Linux Enterprise 15 and SLE Micro as the virtual machine operating systems 
+** As a fully Hyper-Converged Infrastructure hypervisor, Harvester provides its workloads virtualization, storage, and network resources without additional investment.
+* K3s as the Kubernetes distribution to run containerized workloads 
+* SUSE Base Container Image as the Enterprise ready, fully supportable application platform.
 
-The goal of this design is to allow hardware/software solution providers to provide their customers a modern platform for legacy applications. SUSE Harvester allows updating applications in a hybrid, virtualized plus containerized, environment. As a fully Hyper-Converged Infrastructure hypervisor, Harvester provides its workloads virtualization, storage, and network resources without additional investment.
+The goal of this design is to provide a virtualization+Kubernetes platform that allows hardware/software solution providers to continue to provide their legacy applications to their customers while updating them into a microservice architecture. This SUSE, best-in-class platform allows providers to run their applications in a hybrid, virtualized plus containerized mode of operation. 
 
-With this hybrid application platform, the portions of an application stack that are not currently containerized run inside virtual machines. Two types of virtual machines are supported, persistent and immutable. Immutable virtual machines are designed to run portions of an application stack that do not need to persist data locally, but cannot cannot be easily containerized. Leveraging immutable virtual machines can be used as an intermediate step in modernizing portions of an existing application stack. They can be operated in a mode similar to Kubernetes pods (i.e. created and destroyed at will), but the services running inside them retain the legacy application architecture.
+With this hybrid compute platform, the portions of an application stack that are not currently containerized run in virtual machines. Two types of virtual machines are supported, persistent and immutable. Immutable virtual machines are designed to run portions of an application stack that do not need to persist data locally, but cannot cannot be easily containerized. Leveraging immutable virtual machines can be used as an intermediate step in modernizing portions of an existing application stack. They can be operated in a mode similar to Kubernetes pods (i.e. created and destroyed at will), but the services running inside them retain the legacy application architecture.
 
 One of the key differentiators of SUSE Harvester and other Hyper-Converged Infrastructure solutions is that Harvester, its virtual machines, as well as the K3s Kubernetes clusters can be fully managed by a single SUSE Rancher server. This allows an application development team to apply principles of automation uniformly by calling to the Rancher server API for all infrastructure needs.
 
+For the highest level of reliability the design leverages three virtualization focused servers. The server's CPU, memory, storage, and network capacity can be tailored to the needs of the workload. The minimum recommended per node configuration is eight CPU cores, 32 GB of RAM, 120GB of SSD or NVMe storage, and 1Gb/s network. This configuration works well where the workload is relatively small and predictable. Increasing each node's capacity to 16 CPU cores, 64GB of RAM, 500GB of SSD/NVMe storage and a 25Gb/s network significantly increases the solution's ability to handle heavier and variable workloads.
 
+Dedicating three nodes to a solution can sometimes be a challenge for remote environments, however this gives the solution the maximum availability and reliability, plus allows for fully lights-out management. The solution can also be used in a two node configuration, but with a reduction in availability and significant reduction in reliability. It would also require more on-site technical assistance to recover from major server failures. 
 
-For the highest level of reliability the design leverages three virtualization focused servers. The CPU, memory, storage, and network capacity for the servers can be tailored to the needs of the workload. The minimum recommended per node configuration is eight CPU cores, 32 GB of RAM, 120GB of SSD or NVMe storage, and 1Gb/s network. This configuration works well where the workload is relatively small and predictable. Increasing each node's capacity to 16 CPU cores, 64GB of RAM, 500GB of SSD/NVMe storage and a 25Gb/s network significantly increases the solution's ability to handle heavier and variable workloads.
+Absent major hardware or software failures, the two and three node designs are operated exactly the same. In the two node configuration, one node would maintain the RKE2 Kubernetes control-plane and etcd datastore as well as run virtual machines. The second node would only run virtual machines. Maintaining frequent backups of the etcd database is required to ensure recoverability in the of a major failure of the control-plane+etcd node.
 
-Dedicating three nodes to a solution can sometimes be a challenge for remote environments, however this gives the solution the maximum availability and reliability, plus allows for fully lights-out management. The solution can also be used in a two node configuration, but with a reduction in availability and significant reduction in reliability. It would also require more on-site technical assistance to recover from major server failures. Absent major hardware or software failures, the two and three node designs are operated exactly the same. In the two node configuration, one node would maintain the RKE2 Kubernetes control-plane and etcd datastore as well as run virtual machines. The second node would only run virtual machines. Maintaining frequent backups of the etcd database is required to ensure recoverability in the of a major failure of the control-plane+etcd node.
+The journey towards mordernizing the application is made further easier with SUSE's Base Container Image (BCI), which provides a supported, flexible container image to build from. SUSE's BCI even includes a version that allows containerized applications to interface directly with systemd of the host system. Each SUSE BCI has full access to the SUSE software repositories with, or without, a support contract. Of course, protecting your applications with a support contract ensures the highest levels of availability and the fastest time to resolution for any issues that might occur within the image.
 
-
-The journey towards mordernizing the application is made further easier with SUSE's Base Container Image (BCI), which provides a supported, flexible container image to build from. SUSE's BCI even includes a version that allows containerized applications to interface directly with systemd of the host system. Each SUSE BCI has full access to the SUSE software repositories with, or without, a support contract. Including a support contract ensures the highest levels of availability and the fastest time to resolution for any issues that might occur with the BCI software.
-
-////
-Many industries are finding new value in pushing more powerful compute platforms further out to edge locations. The ability to process data closest to where the data is generated reduces costs, lowers business process latency, and significantly increases the ability to react to changing conditions.
-
-One of the biggest challenges industries are facing in taking full advantage of doing business at the edge is modernizing their existing applications to meet the flexibility, reliability, and availability needed to run large numbers of edge locations.
-
-This design was created specifically to address the biggest obstacle these modernization efforts face: Being able to continue to run the business through the iterative process of modernization. The SUSE Harvester platform is a Kubernetes native virtualization platform. The primary difference between Harvester and legacy hypervisors is that Harvester runs virtual machines in a Kubernetes context. This allows application developers to run their virtual machines based on the same kinds of Kubernetes resources, such as namespaces and RBAC policies as they run the containerized portions of their applications. 
-
-Running virtual machines in the same context as containerized workloads creates a natural path to converting applications from monolithic to microservice, one logical step at a time. 
-
-Traditional methods for building out retail locations borrow heavily from simple Remote Office / Branch Office (ROBO) practices, often offering nothing more advanced than using virtual machines to improve compute density. Unfortunately, those antiquated techniques fall painfully short in terms of security, manageability, and scalability. 
-
-This modern design for retail locations was specifically created for companies that provider IT software and hardware for use in retail outlets with no on-site IT support. It emphasizes a high level of security, ease of management for remote IT management staff, and ease of use for on-site staff. One of the most powerful features of this design is that it purposefully associates the identity/function of each Point-of-Service unit with the Kubernetes application layer and disaggregates it from the operating system. This creates significantly improved security, flexibility, and manageability.
-
-The two primary components of the design are a highly available installation of SUSE Rancher and Point-of-Service units that are pre-installed with a hardened and standardized image of SLE Micro and K3s installed as a single-node cluster.
-
-SUSE Rancher server provides a stable platform for orchestrating the Kubernetes-native applications the Point-of-Service units, allowing management of applications remotely, and at scale.  
-
-SUSE Rancher's architecture is designed specifically for environments where both upstream and downstream communications are interrupted regularly. This allows the retail location to keep it's production network disconnected from the Internet for long periods of time. SUSE Rancher has no problem syncing up needed data in short and random windows of communication with its corporate-maintained, upstream resources.
-
-SLE Micro is an ultra-reliable, lightweight operating system purpose built for containerized and virtualized workloads. It leverages the enterprise hardened security and compliance components of SUSE Linux Enterprise and merges them with a modern, immutable, developer-friendly OS platform.
-
-SLE Micro's immutable design ensures the OS is not altered during runtime and runs reliably every single time. Further, it leverages enterprise-hardened SLE common code base to provide enterprise-grade quality and reliability.
-
-K3s is a complete, CNCF certified Kubernetes distribution packaged as a single < 40MB binary that reduces the dependencies and steps needed to install, run and auto-update a production Kubernetes cluster. K3s run on all x86_64 platforms but is also optimized for ARM64 and ARMv7.
-
-Utilizing a standardized O/S plus Kubernetes image across all Point-of-Service units significantly reduces the maintenance required for most of the software stack. This design also leaves the uniqueness of each unit (i.e. point-of-purchase-lane-2 vs. point-of-purchase-lane-4 vs. general-manager-station) in the hands of the Kubernetes-native application layer. This means that in the dynamic environment of a retail location, all Point-of-Service units are fully interchangeable, highly secure, flexible, and easy to manage.
 
 ### The Solution
 
+////
 * *Bring datacenter level of security to every retail location* with the combination of an immutable operating system; a light-weight, static binary Kubernetes; and the programmatic application of security practices and standards. 
 
 ** SLE Micro is the preferred operating system for embedded and edge environments because it presents a much smaller attack surface area than a standard O/S. SLE Micro locks most of its filesystems into read-only mode, leaving only configuration and trivial data areas available to be changed. This makes it incredibly difficult for an attacker to bring malware to the platform and then run it on CPU. When booting up, SLE Micro reverts to its most recent snapshot as its source of truth. Any unauthorized software or changes that an attacker may have managed to sneak onto the platform are lost upon the next reboot. 
