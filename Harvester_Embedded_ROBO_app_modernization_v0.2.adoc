@@ -1,0 +1,73 @@
+## Embedded SUSE Harvester Application Modernization
+
+### The Challenge
+
+* *Most application and integrated solutions providers rely on legacy, monolithic applications* that currently provide significant revenue for their business.
+** *There is often resistance and even some fear around rebuilding*, from the ground up, the company's top money maker. Such an undertaking can incur a huge cost burden, represent a significant risk and interruption for customers. Often the task can seem so daunting that the attitude of "if it isn't broken..." can prevail. However, updating a legacy application to take advantage of microservices and Kubernetes can massively improve the application's reliability and availability. As well, a well architected microservice focused application can scale many times better than its antiquated cousin at the same time significantly reducing development, maintenance, and support costs.
+
+* *Most virtualization and Kubernetes platforms don't allow for modernizing* monolithic applications into microservices through a safe, interative design process.
+
+* *Legacy virtualization platforms are dependent on technology that is more than two decades old.* 
+
+* *Solution providers want to modernize their legacy applications*, but they don't have the time or resources to completely rebuild their applications into a microservice architecture. 
+** SUSE Harvester provides compute, network, and storage in a physical footprint that is often identical or smaller than the requirements of a highly available, legacy application. This allows solution providers to start with a single migration to the Harvester virtual machines, which is often very easy and transparent to their customers. As the solution provider builds experience with Kubernetes and microservices, they can roll out incremental updates to their customers that slowly move application components to the highly available K3s Kubernetes cluster that also runs on Harvester.
+
+* *There is significant risk associated with completely replacing* an active, legacy application with a re-architected implementation.
+** Harvester provides highly available virtualized and containerized infrastructures so the application can be rebuild into microservices over time and over many, incremental updates. This significantly lowers the risks inherent to rebuilding a legacy application because it allows developers to tackle the easiest-to-containerize parts of the application first. Over time, and with more experience under their belts, they can continue to modernize the application, moving more and more components from the virtual machine(s) environment to the Kubernetes environment. Solution providers who are able to update their software in intelligent, incremental steps are able to secure very high customer confidence and can ensure the updates are compatible with the customer's environment and their needs.
+
+### Architectural Overview
+
+This design leverages many SUSE technologies. These include: 
+* SUSE Rancher as a central point of management, automation, and administration for all virtualization and containerization platforms 
+* SUSE Harvester as a Kubernetes based, Hyper-Converged Infrastructure, type 1 hypervisor 
+* SUSE Linux Enterprise 15 and SLE Micro as the virtual machine operating systems 
+** As a fully Hyper-Converged Infrastructure hypervisor, Harvester provides its workloads virtualization, storage, and network resources without additional investment.
+* K3s as the Kubernetes distribution to run containerized workloads 
+* SUSE Base Container Image as the Enterprise ready, fully supportable application platform.
+
+The goal of this design is to provide a virtualization+Kubernetes platform that allows hardware/software solution providers to continue to provide their legacy applications to their customers while updating them into a microservice architecture. This SUSE, best-in-class platform allows providers to run their applications in a hybrid, virtualized plus containerized mode of operation. 
+
+With this hybrid compute platform, the portions of an application stack that are not currently containerized run in virtual machines. Two types of virtual machines are supported, persistent and immutable. Immutable virtual machines are designed to run portions of an application stack that do not need to persist data locally, but cannot cannot be easily containerized. Leveraging immutable virtual machines can be used as an intermediate step in modernizing portions of an existing application stack. They can be operated in a mode similar to Kubernetes pods (i.e. created and destroyed at will), but the services running inside them retain the legacy application architecture.
+
+One of the key differentiators of SUSE Harvester and other Hyper-Converged Infrastructure solutions is that Harvester, its virtual machines, as well as the K3s Kubernetes clusters can be fully managed by a single SUSE Rancher server. This allows an application development team to apply principles of automation uniformly by calling to the Rancher server API for all infrastructure needs.
+
+For the highest level of reliability the design leverages three virtualization focused servers. The server's CPU, memory, storage, and network capacity can be tailored to the needs of the workload. The minimum recommended per node configuration is eight CPU cores, 32 GB of RAM, 120GB of SSD or NVMe storage, and 1Gb/s network. This configuration works well where the workload is relatively small and predictable. Increasing each node's capacity to 16 CPU cores, 64GB of RAM, 500GB of SSD/NVMe storage and a 25Gb/s network significantly increases the solution's ability to handle heavier and variable workloads.
+
+Dedicating three nodes to a solution can sometimes be a challenge for remote environments, however this gives the solution the maximum availability and reliability, plus allows for fully lights-out management. The solution can also be used in a two node configuration, but with a reduction in availability and significant reduction in reliability. It would also require more on-site technical assistance to recover from major server failures. 
+
+Absent major hardware or software failures, the two and three node designs are operated exactly the same. In the two node configuration, one node would maintain the RKE2 Kubernetes control-plane and etcd datastore as well as run virtual machines. The second node would only run virtual machines. Maintaining frequent backups of the etcd database is required to ensure recoverability in the of a major failure of the control-plane+etcd node.
+
+The journey towards mordernizing the application is made further easier with SUSE's Base Container Image (BCI), which provides a supported, flexible container image to build from. SUSE's BCI even includes a version that allows containerized applications to interface directly with systemd of the host system. Each SUSE BCI has full access to the SUSE software repositories with, or without, a support contract. Of course, protecting your applications with a support contract ensures the highest levels of availability and the fastest time to resolution for any issues that might occur within the image.
+
+
+### The Solution
+
+
+
+////
+* *Bring datacenter level of security to every retail location* with the combination of an immutable operating system; a light-weight, static binary Kubernetes; and the programmatic application of security practices and standards. 
+
+** SLE Micro is the preferred operating system for embedded and edge environments because it presents a much smaller attack surface area than a standard O/S. SLE Micro locks most of its filesystems into read-only mode, leaving only configuration and trivial data areas available to be changed. This makes it incredibly difficult for an attacker to bring malware to the platform and then run it on CPU. When booting up, SLE Micro reverts to its most recent snapshot as its source of truth. Any unauthorized software or changes that an attacker may have managed to sneak onto the platform are lost upon the next reboot. 
+
+** SUSE K3s is not only the world's lightest Kubernetes, it is also highly secure right out of the box. K3s runs as a single, static binary so validating that the entire Kubernetes platform has not been compromised is as easy as verifying the checksum of the K3s binary.
+
+** SUSE Rancher provides a powerful platform for deploying and maintaining any Kubernetes-native security software and configurations. The software and configurations are managed in centralized, secured repositories so managing the software and configurations for a thousand retail locations is as easy as managing a single location.
+
+** As an added layer of protection, SUSE Rancher ensures consistent Role Based Access Control (RBAC) policies are applied to every Point-of-Service unit.
+
+* *SUSE Rancher orchestrates deploying, updating, and even removing* all of the software that runs a retail location. Specific labels are applied to each Point-of-Service unit, which signals SUSE Rancher what software should be deployed to the unit's single-node K3s cluster. While remote IT staff manage the software repositories, SUSE Rancher ensures applications get deployed and updated on the appropriate Point-of-Service units. 
+
+** Probably the most overlooked security hole in the software supply chain is the timely disposal of applications and data after a unit has been moved or replaced. SUSE Rancher covers this aspect seamlessly. Upon removing the cluster labels from a unit, it would no longer qualify for any applications and thus all applications and non-persistent data are immediately removed from the unit.
+
+** While some applications, like those supporting a Point-of-Purchase units are best deployed and run automatically, certain applications are best deployed and run only when needed. These would include applications that have high resource consumption or would benefit from a reduced attack surface area. SUSE Rancher also enables deploying, running, and removing applications on-demand from its private application catalog. This shrinks the application's attack surface to zero while not in use/not installed. The ability to deploy applications on-demand is, of course, restricted by the custom set of applications configured in the local Rancher server's private application catalog, as well as the policies configured in Rancher's centralized Role Based Access Control.
+
+* *SUSE Rancher's architecture is designed specifically for environments* where both upstream and downstream communications might be interrupted regularly. This can allow, if needed, the retail location to keep it's production network disconnected from the Internet for long periods of time. It can also ensure that a the applications running the retail location continue to operate in the event of network interruptions. SUSE Rancher has no problem syncing up needed data in short and/or random windows of communication with its corporate-maintained, upstream resources. The architecture even allows the same level of resilience with SUSE Rancher's downstream clusters.
+
+** SUSE Rancher can proxy communications with the K3s clusters on all of the Point-of-Service units, allowing remote IT staff to easily troubleshoot any unit in the retail location from a central location. This also ensures that RBAC policies are enforced for all units, all of the time.
+
+* *SUSE Rancher ensures security applications and policies* can be developed and maintained in a central, secure environment and pushed out to any number of retail locations, with any number of Points-of-Service in true Continuous Integration / Continuous Delivery fashion. 
+
+** SUSE Rancher can guarantee that security software like Open Policy Agent Gatekeeper are deployed on every K3s cluster, on every Point-of-Service unit, in every retail location. Using cluster labels, a definition unique to SUSE Rancher, it can also be assured that specific security policies are enforced on every Point-of-Service unit, based on its current function. 
+
+** If a unit is moved for example, from a Point-of-Purchase function, to a receiving-and-inventory function; SUSE Rancher automatically removes all of the previous applications, security software, and policies and applies new resources to fit unit's new tasks and security posture. Performing the same switch based on antiquated bare-metal or virtualization deployment technologies would require engaging remote IT staff to perform complex and error prone redeployments of operating systems and applications.
+////
