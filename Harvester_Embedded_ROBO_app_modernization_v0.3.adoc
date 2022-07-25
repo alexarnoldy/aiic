@@ -16,6 +16,7 @@
 ### Architectural Overview
 
 This design leverages many SUSE technologies:
+
 * *SUSE Rancher* as the central point of management, automation, and administration for all virtualization and containerization platforms 
 * *SUSE Harvester* as a Kubernetes based, Hyper-Converged Infrastructure (HCI), type-one hypervisor 
 ** As a fully Hyper-Converged Infrastructure hypervisor, Harvester provides its workloads virtualization, storage, and network resources without additional investment.
