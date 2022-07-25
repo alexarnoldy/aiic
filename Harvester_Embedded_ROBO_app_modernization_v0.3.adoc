@@ -1,0 +1,63 @@
+## Embedded SUSE Harvester Application Modernization
+
+### The Challenge
+
+* *Most integrated solutions providers rely on legacy, monolithic applications* that currently provide significant revenue for their business.
+
+* *Traditional virtualization and Kubernetes platforms insist on a difficult and risky "lift-and-shift"* method for modernizing monolithic applications into microservices.
+
+* *Legacy virtualization platforms are dependent on decades old technology* that is wholly incompatible with modern application development practices.
+
+* *Solution providers want to modernize their legacy applications*, but may not have the time or resources to completely rebuild their applications into a modern, microservice architecture. 
+
+* *Customers are increasingly wary of the risk associated with solution providers who continue to invest* in antiquated application architectures rather than modernize their portfolio. Smart customers understand there is risk with every approach and would rather take that risk in small, easily recoverable iterations.
+
+### Architectural Overview
+
+This design leverages many SUSE technologies:
+* *SUSE Rancher* as the central point of management, automation, and administration for all virtualization and containerization platforms 
+* *SUSE Harvester* as a Kubernetes based, Hyper-Converged Infrastructure (HCI), type-one hypervisor 
+** As a fully Hyper-Converged Infrastructure hypervisor, Harvester provides its workloads virtualization, storage, and network resources without additional investment.
+* *SUSE Linux Enterprise 15* and *SLE Micro* as the reliable, highly-secure virtual machine operating system
+* *K3s* as the Kubernetes distribution for mission-critical containerized workloads 
+* *SUSE Base Container Image* as the Enterprise ready, fully supportable application platform image
+* *SUSE Professional Services* for guidance on creating the modern application support components such as a secure container image registry and more
+
+The goal of this design is to provide a combined virtual machine and Kubernetes platform that allows solution providers to seamlessly modernize their legacy applications into a microservice architecture through a gradual, well planned roll-out to their customers. This SUSE, best-in-class platform, allows providers to deliver their applications in a hybrid, virtualized plus containerized, mode of operation. 
+
+With this hybrid compute platform, a solution provider and convert portions of their application stack into Kubernetes managed containers, while leaving the rest of the stack unchanged, running inside virtual machines. 
+
+SUSE Harvester supports both persistent and immutable virtual machines. Immutable virtual machines can run portions of an application stack that are not ready to be containerized and do not need to persist data locally. This is just one example of a simple, low-risk step towards translating legacy architectures into the world of microservices.
+
+One of the key differentiators of SUSE Harvester and other Hyper-Converged Infrastructure solutions is that Harvester's virtual machines, K3s Kubernetes clusters, and even public cloud Kubernetes clusters, can be deployed and fully managed by a single SUSE Rancher server. This removes the need for an application development team to maintain experts in a virtualization platform, Kubernetes platform, and public cloud provider. Leveraging the standardized SUSE Rancher API calls easily handles all infrastructure needs.
+
+For the highest level of reliability, the design leverages three virtualization focused servers. The server's CPU, memory, storage, and network capacity can be tailored to the needs of the workload. The minimum recommended per node configuration is eight CPU cores, 32 GB of RAM, 120GB of SSD or NVMe storage, and 1Gb/s network. This configuration works well where the workload is small and predictable. Increasing each node's capacity to 16 CPU cores, 64GB of RAM, 500GB of SSD/NVMe storage and a 25Gb/s network significantly increases the solution's ability to handle busier and highly variable workloads.
+
+Dedicating three nodes to a solution can sometimes be a challenge for remote environments, however this gives the solution the maximum availability and reliability, plus allows for full lights-out management. The solution can also be used in a two node configuration, but with reductions in availability and reliability. 
+
+Absent major infrastructure failures, the two and three node designs operate exactly the same. In the two node configuration, one node would maintain the RKE2 Kubernetes control-plane and etcd datastore as well as run virtual machines. The second node would only run virtual machines. Maintaining frequent backups of the etcd database is key to ensuring recoverability in the event of a major failure of the node hosting the control plan and etcd datastore.
+
+The journey towards modernizing the application is further made easier when using SUSE's Base Container Image (BCI). BCI offers developers a suite of secure, supported, flexible container images on which build modern applications. To enable agile development, each SUSE BCI has full access to the SUSE software repositories with, or without, a support contract. Of course, protecting your applications with a support contract ensures the highest levels of availability and the fastest time to resolution for any unforeseen issues that might occur.
+
+
+### The Solution
+
+* *There is often resistance and even some fear around rebuilding*, from the ground up, the company's top money maker. Such an undertaking can incur a huge cost burden, represent a significant risk and interruption for customers. Often the task can seem so daunting that the attitude of "if it isn't broken..." can prevail. However, updating a legacy application to take advantage of microservices and Kubernetes can massively improve the application's reliability and availability. As well, a well architected microservice focused application can scale many times better than its antiquated cousin at the same time significantly reducing development, maintenance, and support costs.
+
+
+* *One of the biggest hurdles to modernizing legacy applications* is that mode 1 technologies, such as virtual machines don't offer any means to help redevelop an application into a microservices architecture. Unfortunately, Kubernetes also offers nothing in the way to a pathway to reach the same goal. What Harvester brings to this particular table is the ability to run virtual machines in a Kubernetes context. This creates "stepping stones" for developers to begin updating their mode 1 applications. The initial steps can be to split the application into multiple VMs running in different namespaces. This introduces the ability to work with differing levels of network, storage, IPC, and process isolation; but doesn't require any other Kubernetes specific modifications. Just this one capability addresses the toughest challenge in modernizing an application, which is splitting up a monolithic application into semi-independent components without impacting the application's performance or capabilities. 
+
+****Options exist to further reduce risk if the conversion process leverages Kubernetes standard rollback capabilities to return to the unchanged state if unexpected behavior is encountered. Lift-and-shift application conversions can't offer this type of protection.****
+
+****Leveraging immutable virtual machines can be used as a great first step in modernizing portions of an existing application stack. They can be operated in a mode similar as Kubernetes pods (e.g., restricted to a specific namespace, created and destroyed at will, etc.), while the services running inside the immutable VM retain the legacy application architecture.****
+
+Harvester also allows application and solution providers to roll out these changes to their customers as a multi-step, iterative process rather than using the mode 1 practice of replacing the legacy application with a single, completely rebuilt product. Maintaining applications through Continuous Delivery processes is also one of the most important tenants of a microservices architecture.
+
+
+* *Legacy virtualization platform providers are struggling to stay relevant in the cloud-native computing era.* They have held on to their highly profitable vendor lock-in strategies as long as possible but are now finding increasingly difficult to offer the value today's customers need. Building Kubernetes clusters on antiquated virtualization platforms only serves to extend the long standing tradition of vendor lock-in, while hobbling the true power of modern compute and containerization technologies. Virtual machines still have a big part to play in the modern IT landscape, however running virtual machines on a cutting edge Kubernetes-based platform unleashes previously unimagined potential for interoperability between virtual machines and containerized workloads.
+
+
+* *SUSE Harvester provides compute, network, and storage in a physical footprint* that is often identical or smaller than the requirements of a highly available, legacy application. This allows solution providers to start with a single migration to the Harvester virtual machines, which is often very easy and transparent to their customers. As the solution provider builds experience with Kubernetes and microservices, they can roll out incremental updates to their customers that slowly move application components to the highly available K3s Kubernetes cluster that also runs on Harvester.
+
+
+* *Harvester provides highly available virtualized and containerized infrastructures* so the application can be rebuild into microservices over time and over many, incremental updates. This significantly lowers the risks inherent to rebuilding a legacy application because it allows developers to tackle the easiest-to-containerize parts of the application first. Over time, and with more experience under their belts, they can continue to modernize the application, moving more and more components from the virtual machine(s) environment to the Kubernetes environment. Solution providers who are able to update their software in intelligent, incremental steps are able to secure very high customer confidence and can ensure the updates are compatible with the customer's environment and their needs.
