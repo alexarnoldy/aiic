@@ -64,6 +64,9 @@ As experience is gained, the modernization process continues, step-by-step, with
 
 * *Leveraging the flexibility of SUSE Harvester allows the solution provider to manage* the developer resources that are dedicated to modernizing the architecture, without losing momentum because the modernization process is integrated with the normal maintenance of the application that is delivered to their customers. Rather than having to manage multiple work streams, a single code-base is updated, validated, and provided to their customers. 
 
+SUSE Services maintains a highly experienced staff that can help with any stage of the application modernization project, from planning, to re-architecting, to developing the modern infrastructure needed to support the modernization effort. Your developers know their application. Our professionals know Harvester and all things Kubernetes. Together, they can create a development plan second to none.
+
+
 * *Updating and rolling out architectural updates alongside code updates* lowers the overall operational risk for your customers by ensuring a path to easily roll back all changes in the even bad behavior is encountered. This provides added value for your customers as they continuously receive incremental improvements to the availability and reliability of the application platform as part of the normal application code updates. Solution providers who are able to update their software in intelligent, incremental steps are able to secure very high customer confidence and can ensure the updates are compatible with the customer's environment and their needs.
 
 
